@@ -1,0 +1,39 @@
+Criar entidade Serviço e permitir o cadastro de serviços
+Como
+administrador do sistema de agendamentos,
+
+Quero
+cadastrar os serviços oferecidos pelo salão, como corte de cabelo, barba, etc.,
+
+Para que
+eles possam ser escolhidos no momento do agendamento pelos clientes.
+
+📄 Descrição Técnica
+Criar a entidade Servico com os seguintes campos:
+
+id (chave primária, auto-gerada)
+
+nome (ex: "Corte de cabelo", "Barba")
+
+descricao (opcional)
+
+preco (ex: BigDecimal)
+
+A tabela servico deve ser criada automaticamente no banco pelo Hibernate.
+
+✅ Critérios de Aceite
+Critério	Descrição
+✅	A classe Servico deve estar anotada com @Entity
+✅	Deve conter os campos id, nome, descricao (opcional) e preco
+✅	A aplicação deve criar automaticamente a tabela servico ao iniciar
+✅	Deve ser possível visualizar a estrutura da tabela no banco após subir a aplicação
+
+🛠️ Tarefas Técnicas
+ Criar a classe Servico no pacote de modelos
+
+ Anotar corretamente com @Entity, @Id e @GeneratedValue
+
+ Testar persistência automática da tabela
+
+ Commitar a implementação com mensagem: feat: criação da entidade Servico
+

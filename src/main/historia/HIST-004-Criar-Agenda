@@ -1,0 +1,43 @@
+Criar entidade Agendamento para registrar horários de serviços
+Como
+cliente do salão,
+
+Quero
+escolher um serviço e agendar um horário com o salão,
+
+Para que
+possa reservar meu atendimento com antecedência e segurança.
+
+📄 Descrição Técnica
+Criar a entidade Agendamento com os seguintes campos:
+
+id
+
+cliente (relação com a entidade Cliente)
+
+servico (relação com a entidade Servico)
+
+dataHora (LocalDateTime)
+
+observacoes (opcional)
+
+Deve usar @ManyToOne para relacionar com Cliente e Servico.
+
+✅ Critérios de Aceite
+Critério	Descrição
+✅	A entidade Agendamento deve estar anotada com @Entity
+✅	Deve conter os campos id, cliente, servico, dataHora, observacoes
+✅	Deve haver relacionamento @ManyToOne com Cliente e Servico
+✅	A tabela agendamento deve ser criada corretamente no banco
+✅	A aplicação deve iniciar sem erros e reconhecer a entidade
+
+🛠️ Tarefas Técnicas
+ Criar a classe Agendamento com os campos e relacionamentos definidos
+
+ Mapear corretamente as relações JPA com @ManyToOne
+
+ Confirmar criação automática da tabela agendamento
+
+ Validar com exemplo de persistência via teste ou script
+
+ Commitar a classe: feat: criação da entidade Agendamento

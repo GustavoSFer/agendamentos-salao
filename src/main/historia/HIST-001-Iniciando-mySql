@@ -1,0 +1,49 @@
+História de Usuário: Conexão com o banco de dados MySQL
+ID: HIST-001
+Título: Criar e configurar conexão com banco de dados MySQL
+Como
+desenvolvedor da aplicação de agendamentos de salão,
+
+Quero
+configurar e estabelecer uma conexão entre a aplicação Spring Boot e um banco de dados MySQL,
+
+Para que
+os dados da aplicação possam ser armazenados e persistidos corretamente.
+
+📄 Descrição Técnica
+Criar um container Docker para o MySQL com configuração de banco, usuário e senha.
+
+Configurar o application.properties ou application.yml com os dados de conexão.
+
+Verificar que a aplicação Spring Boot se conecta corretamente ao banco na inicialização.
+
+Validar que o Hibernate reconhece o banco e consegue gerar as tabelas automaticamente.
+
+Incluir configuração para geração automática do schema (ddl-auto=update) para ambiente local.
+
+✅ Critérios de Aceite
+Critério	Descrição
+✅	Deve ser possível subir um container MySQL com docker-compose up
+✅	O banco de dados deve ser acessível na porta 3306 com as credenciais configuradas
+✅	O application.properties deve conter a URL, usuário, senha e driver do MySQL
+✅	Ao iniciar o projeto, o Spring Boot deve conectar-se corretamente ao banco
+✅	O Hibernate deve criar automaticamente as tabelas mapeadas nas entidades JPA
+✅	Deve haver um script ou documentação explicando como subir o banco localmente
+
+🛠️ Tarefas Técnicas
+ Criar o arquivo docker-compose.yml com o serviço MySQL
+
+ Configurar a conexão no application.properties
+
+ Testar a criação automática de tabelas com Hibernate
+
+ Criar o script start-application-mysql.sh para facilitar a inicialização local
+
+ Documentar os passos no README.md (como subir o banco e iniciar o projeto)
+
+🧪 Evidência de Teste / Validação
+Rodar a aplicação e verificar log: deve exibir conexão com o banco e criação de tabelas.
+
+Acessar o banco com mysql CLI ou ferramenta como DBeaver para confirmar persistência.
+
+Confirmar que a aplicação não levanta erro de DataSource ao iniciar.

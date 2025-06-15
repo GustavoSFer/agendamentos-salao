@@ -1,0 +1,46 @@
+Criar entidade Cliente para gerenciamento de clientes no sistema
+Como
+desenvolvedor da aplicação de agendamentos de salão,
+
+Quero
+criar a entidade Cliente com os campos básicos de identificação,
+
+Para que
+os dados dos clientes possam ser armazenados, consultados e utilizados em agendamentos futuros.
+
+📄 Descrição Técnica
+Implementar a classe Cliente como uma entidade JPA.
+
+A classe deve conter os atributos id, nome, telefone e email.
+
+O campo id deve ser gerado automaticamente com @GeneratedValue.
+
+A entidade será persistida em banco via JPA/Hibernate.
+
+A tabela deve ser criada automaticamente ao iniciar a aplicação (com ddl-auto=update).
+
+✅ Critérios de Aceite
+Critério	Descrição
+✅	A classe Cliente deve estar anotada com @Entity e residir em um pacote adequado (ex: br.com.fernandes.models)
+✅	Os campos devem incluir: Long id, String nome, String telefone, String email
+✅	O campo id deve ser chave primária e auto-incrementado (@Id @GeneratedValue)
+✅	A aplicação deve criar automaticamente a tabela cliente no banco ao ser iniciada
+✅	Não deve haver erro de mapeamento JPA ao rodar a aplicação
+
+🛠️ Tarefas Técnicas
+ Criar o pacote models ou domain (se ainda não existir)
+
+ Criar a classe Cliente.java com os atributos indicados
+
+ Anotar corretamente com @Entity, @Id e @GeneratedValue
+
+ Validar que o Hibernate gera a tabela cliente no banco de dados MySQL
+
+ Commitar a classe com mensagem clara, ex: feat: criação da entidade Cliente
+
+🧪 Evidência de Teste / Validação
+Rodar a aplicação e verificar no log que a tabela cliente foi criada com sucesso.
+
+Acessar o banco MySQL via ferramenta (ex: DBeaver) e verificar a estrutura da tabela.
+
+Verificar que a aplicação inicia sem erros relacionados a JPA ou persistência.
