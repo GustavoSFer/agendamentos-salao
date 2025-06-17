@@ -35,15 +35,6 @@ Critério	Descrição
 
  Configurar a conexão no application.properties
 
- Testar a criação automática de tabelas com Hibernate
-
  Criar o script start-application-mysql.sh para facilitar a inicialização local
 
  Documentar os passos no README.md (como subir o banco e iniciar o projeto)
-
-🧪 Evidência de Teste / Validação
-Rodar a aplicação e verificar log: deve exibir conexão com o banco e criação de tabelas.
-
-Acessar o banco com mysql CLI ou ferramenta como DBeaver para confirmar persistência.
-
-Confirmar que a aplicação não levanta erro de DataSource ao iniciar.
