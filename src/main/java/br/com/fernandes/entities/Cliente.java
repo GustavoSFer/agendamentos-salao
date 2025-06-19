@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Cliente implements Serializable {
 
-    private long id;
+    private Long id;
     private String nome;
     private String telefone;
     private String email;
