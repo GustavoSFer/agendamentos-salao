@@ -51,7 +51,7 @@ class ServicoControllerTest {
     }
 
     @Test
-    @DisplayName("Dese ser possivel cadastrar um serviço sem a descrição")
+    @DisplayName("Deve ser possível cadastrar um serviço sem a descrição")
     void testCadastrarServicoSemDescricao() throws Exception {
         ServicoDTO servicoDto = new ServicoDTO("Corte cabelo masculino", null,40.00D);
         Servico servico = new Servico("Corte cabelo masculino", 40.00D);
@@ -65,5 +65,27 @@ class ServicoControllerTest {
                 .andExpect(jsonPath("$.nome").value(servico.getNome()))
                 .andExpect(jsonPath("$.descricao").value(nullValue()))
                 .andExpect(jsonPath("$.preco").value(servico.getPreco()));
+    }
+
+    @Test
+    @DisplayName("Deve retornar status 400 quando não é informado nome ou preco.")
+    void testErrorAoEnviarDadosInvalidos() throws Exception {
+        ServicoDTO servicoDTO = new ServicoDTO(null, null, 60.00D);
+
+        mockMvc.perform(post("/servicos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(servicoDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Deve retornar status 400 quando não é informado nome ou preco.")
+    void testErrorAoEnviarprecoInvalidos() throws Exception {
+        ServicoDTO servicoDTO = new ServicoDTO("Corte cabelo", null, 0.00D);
+
+        mockMvc.perform(post("/servicos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(servicoDTO)))
+                .andExpect(status().isBadRequest());
     }
 }
