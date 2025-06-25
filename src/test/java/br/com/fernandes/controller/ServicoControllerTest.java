@@ -3,8 +3,6 @@ package br.com.fernandes.controller;
 import br.com.fernandes.dto.ServicoDTO;
 import br.com.fernandes.entities.Servico;
 import br.com.fernandes.service.ServicoService;
-import br.com.fernandes.util.ServicoMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
