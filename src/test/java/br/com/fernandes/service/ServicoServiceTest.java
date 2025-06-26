@@ -46,4 +46,24 @@ class ServicoServiceTest {
         assertEquals(1L, response.getId());
         assertEquals(servico.getPreco(), response.getPreco());
     }
+
+    @Test
+    @DisplayName("Deve ser possivel cadastrar um serviço sem a descrição")
+    void testeCadastrarServicoSemDescricao() {
+        Servico servico = new Servico("Corte de cabelo", 60D);
+
+        Servico servicoCriado = new Servico();
+        servicoCriado.setId(1L);
+        servicoCriado.setNome(servico.getNome());
+        servicoCriado.setPreco(servico.getPreco());
+
+        when(servicoRepository.save(servico)).thenReturn(servicoCriado);
+
+        Servico response = servicoService.criarServico(servico);
+
+        assertNotNull(response);
+        assertThat(response.getId()).isEqualTo(1L);
+        assertThat(response.getDescricao()).isBlank();
+        assertThat(response.getNome()).isEqualTo(servico.getNome());
+    }
 }
