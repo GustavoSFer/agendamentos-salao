@@ -1,15 +1,26 @@
 package br.com.fernandes.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
 public class Agendamento implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
     private Cliente cliente;
+
+    @ManyToOne
     private Servico servico;
+
     private LocalDateTime dataHora;
+
     private String observacao;
 
     public Agendamento() {}
