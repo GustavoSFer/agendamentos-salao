@@ -1,6 +1,7 @@
 package br.com.fernandes.service;
 
 import br.com.fernandes.entities.Agendamento;
+import br.com.fernandes.exceptions.AgendamentoInvalidoException;
 import br.com.fernandes.repository.AgendamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,7 +14,7 @@ public class AgendamentoService {
 
     public Agendamento criarAgendamento(Agendamento agendamento) {
         if (!agendamento.getDataHora().isAfter(LocalDateTime.now())) {
-            throw new RuntimeException("Informe a data e hora corretamente");
+            throw new AgendamentoInvalidoException("Dados informado para o agendamento está invalido, por favor revise!");
         }
         return agendamentoRepository.save(agendamento);
     }
