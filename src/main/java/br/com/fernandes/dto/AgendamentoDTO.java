@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 public record AgendamentoDTO(
         @JsonProperty("cliente")
         @NotNull(message = "O cliente deve ser informado.")
-        Cliente cliente,
+        Long clienteId,
 
         @JsonProperty("servico")
         @NotNull(message = "O servico deve ser informado.")
-        Servico servico,
+        Long servicoId,
 
         @JsonProperty("dataHora")
         @NotBlank(message = "A data e hora deve ser informado.")
