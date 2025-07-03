@@ -21,6 +21,10 @@ public class AgendamentoController {
 
     @PostMapping
     public ResponseEntity<Agendamento> criarAgendamento(@Valid @RequestBody AgendamentoDTO agendamentoDto) {
+        // Criar busca de cliente pelo id na service
+
+        // Criar busca do servico pelo id na service
+
         Agendamento agendamento = AgendamentoMapper.agendamentoDtoToAgendamento(agendamentoDto);
         Agendamento agendamentoCriado = agendamentoService.criarAgendamento(agendamento);
 
