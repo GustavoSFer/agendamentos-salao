@@ -31,4 +31,14 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(status).body(erro);
     }
+
+    @ExceptionHandler(ServicoNotFoundException.class)
+    public ResponseEntity<StartErrorException> ServicoNotFound(ServicoNotFoundException e) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        Instant instant = Instant.now();
+
+        StartErrorException erro =  new StartErrorException(e.getMessage(), instant, status);
+
+        return ResponseEntity.status(status).body(erro);
+    }
 }
