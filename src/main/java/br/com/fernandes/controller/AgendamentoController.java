@@ -3,8 +3,10 @@ package br.com.fernandes.controller;
 import br.com.fernandes.dto.AgendamentoDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
+import br.com.fernandes.entities.Servico;
 import br.com.fernandes.service.AgendamentoService;
 import br.com.fernandes.service.ClienteService;
+import br.com.fernandes.service.ServicoService;
 import br.com.fernandes.util.AgendamentoMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +26,18 @@ public class AgendamentoController {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private ServicoService servicoService;
+
     @PostMapping
     public ResponseEntity<Agendamento> criarAgendamento(@Valid @RequestBody AgendamentoDTO agendamentoDto) {
         // Criar busca de cliente pelo id na service
         Cliente cliente = clienteService.buscaClientePeloId(agendamentoDto.clienteId());
 
         // Criar busca do servico pelo id na service
+        Servico servico = servicoService.buscarServicoPeloId(agendamentoDto.servicoId());
 
-        Agendamento agendamento = AgendamentoMapper.agendamentoDtoToAgendamento(agendamentoDto);
+        Agendamento agendamento = new Agendamento(cliente, servico, agendamentoDto.dataHora(), agendamentoDto.observacao());
         Agendamento agendamentoCriado = agendamentoService.criarAgendamento(agendamento);
 
         return ResponseEntity.ok().body(agendamentoCriado);

@@ -7,8 +7,8 @@ public class AgendamentoMapper {
 
     public static Agendamento agendamentoDtoToAgendamento(AgendamentoDTO agendamentoDTO) {
         Agendamento agendamento = new Agendamento();
-        agendamento.setCliente(agendamentoDTO.cliente());
-        agendamento.setServico(agendamentoDTO.servico());
+        //agendamento.setCliente(agendamentoDTO.cliente());
+        //agendamento.setServico(agendamentoDTO.servico());
         agendamento.setDataHora(agendamentoDTO.dataHora());
         agendamento.setObservacao(agendamentoDTO.observacao());
 

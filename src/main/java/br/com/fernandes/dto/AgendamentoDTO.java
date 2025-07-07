@@ -9,16 +9,16 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public record AgendamentoDTO(
-        @JsonProperty("cliente")
+        @JsonProperty("clienteId")
         @NotNull(message = "O cliente deve ser informado.")
         Long clienteId,
 
-        @JsonProperty("servico")
+        @JsonProperty("servicoId")
         @NotNull(message = "O servico deve ser informado.")
         Long servicoId,
 
         @JsonProperty("dataHora")
-        @NotBlank(message = "A data e hora deve ser informado.")
+        @NotNull(message = "A data e hora deve ser informado.")
         LocalDateTime dataHora,
 
         @JsonProperty("observacao")
