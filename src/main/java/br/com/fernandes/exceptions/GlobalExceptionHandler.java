@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AgendamentoInvalidoException.class)
     public ResponseEntity<StartErrorException> AgendamentoInvalido(AgendamentoInvalidoException e) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         String error = e.getMessage();
         Instant instant = Instant.now();
 
