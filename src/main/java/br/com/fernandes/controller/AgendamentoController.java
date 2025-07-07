@@ -7,7 +7,6 @@ import br.com.fernandes.entities.Servico;
 import br.com.fernandes.service.AgendamentoService;
 import br.com.fernandes.service.ClienteService;
 import br.com.fernandes.service.ServicoService;
-import br.com.fernandes.util.AgendamentoMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +30,7 @@ public class AgendamentoController {
 
     @PostMapping
     public ResponseEntity<Agendamento> criarAgendamento(@Valid @RequestBody AgendamentoDTO agendamentoDto) {
-        // Criar busca de cliente pelo id na service
         Cliente cliente = clienteService.buscaClientePeloId(agendamentoDto.clienteId());
-
-        // Criar busca do servico pelo id na service
         Servico servico = servicoService.buscarServicoPeloId(agendamentoDto.servicoId());
 
         Agendamento agendamento = new Agendamento(cliente, servico, agendamentoDto.dataHora(), agendamentoDto.observacao());
