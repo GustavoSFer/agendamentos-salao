@@ -1,0 +1,33 @@
+História de Usuário: Listar clientes agendados para um dia
+ID: HIST-008
+Título: Ver agendamentos do dia
+
+Como
+administrador do salão,
+Quero
+ver todos os clientes agendados para um determinado dia,
+Para que
+possa me organizar para os atendimentos.
+
+📄 Descrição Técnica
+
+Criar endpoint GET /agendamentos/dia?data=YYYY-MM-DD
+
+Filtrar agendamentos por data (ignorar hora)
+
+Retornar nome do cliente, serviço e horário
+
+✅ Critérios de Aceite
+
+Critério	Descrição
+✅	Deve retornar todos os agendamentos para a data informada
+✅	Deve incluir nome do cliente, nome do serviço e horário
+✅	Retornar 200 OK mesmo se a lista estiver vazia
+
+🛠️ Tarefas Técnicas
+
+Criar método findByData(LocalDate) no AgendamentoRepository
+
+Criar DTO de retorno com dados resumidos
+
+Criar método no AgendamentoController com @RequestParam LocalDate
