@@ -8,6 +8,7 @@ import br.com.fernandes.service.AgendamentoService;
 import br.com.fernandes.service.ClienteService;
 import br.com.fernandes.service.ServicoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,8 @@ class AgendamentoControllerTest {
     private Servico servico = new Servico();
     private Agendamento agendamento = new Agendamento(cliente, servico, LocalDateTime.now(), "Corte de cabelo");
 
-    @Test
-    @DisplayName("Deve ser possivel criar um agendamento com sucesso.")
-    void criarAgendamentoTest() throws Exception {
+    @BeforeEach
+    public void setUp() {
         cliente.setId(1L);
         cliente.setNome("Gustavo");
         cliente.setEmail("gustavo@gu.com.br");
@@ -57,7 +57,11 @@ class AgendamentoControllerTest {
         servico.setNome("Corte de cabelo");
         servico.setDescricao("Masculino");
         servico.setPreco(80.0D);
+    }
 
+    @Test
+    @DisplayName("Deve ser possivel criar um agendamento com sucesso.")
+    void criarAgendamentoTest() throws Exception {
         AgendamentoDTO agendamentoDTO = new AgendamentoDTO(1L, 3L, LocalDateTime.now().plusDays(3), "Corte de cabelo");
         Agendamento agendamentoCriado = new Agendamento();
         agendamentoCriado.setId(1L);
