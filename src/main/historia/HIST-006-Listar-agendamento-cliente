@@ -1,0 +1,31 @@
+História de Usuário: Listar agendamentos de um cliente
+ID: HIST-006
+Título: Visualizar agendamentos de um cliente
+
+Como
+cliente,
+Quero
+ver todos os meus agendamentos,
+Para que
+eu possa acompanhar horários já marcados.
+
+📄 Descrição Técnica
+
+Criar endpoint GET /clientes/{id}/agendamentos
+
+Retornar List<AgendamentoDTO> com serviço, dataHora, observação
+
+✅ Critérios de Aceite
+
+Critério	Descrição
+✅	Deve retornar todos os agendamentos do cliente
+✅	Retornar 404 se cliente não for encontrado
+✅	Incluir nome do serviço e dataHora na resposta
+
+🛠️ Tarefas Técnicas
+
+Criar consulta findByClienteId(Long id) no repositório
+
+Criar DTO para retorno resumido dos agendamentos
+
+Criar método no AgendamentoService e Controller
