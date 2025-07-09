@@ -1,0 +1,38 @@
+História de Usuário: Listar os serviços
+ID: HIST-005
+Título: Listar serviços disponíveis
+
+Como
+cliente ou recepcionista do salão,
+Quero
+visualizar todos os serviços oferecidos,
+Para que
+possa escolher o serviço desejado para agendamento.
+
+📄 Descrição Técnica
+
+Criar endpoint GET /servicos
+
+Retornar List<ServicoDTO> com nome, descrição, preço
+
+Ordenar por nome
+
+✅ Critérios de Aceite
+
+Critério	Descrição
+✅	Deve retornar lista de serviços cadastrados
+✅	Deve incluir nome, descrição e preço
+✅	Deve retornar 200 OK mesmo se a lista estiver vazia
+
+🛠️ Tarefas Técnicas
+
+Criar método findAll() no ServicoService
+
+Criar ServicoController com @GetMapping
+
+Mapear entidade para DTO de retorno
+
+🔁 CRUD Necessário:
+Você já tem a criação (C) da entidade Servico.
+📌 Faltam os outros do CRUD:
+Criarei uma história logo abaixo para isso (HIST-013).

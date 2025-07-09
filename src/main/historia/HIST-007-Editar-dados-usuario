@@ -1,0 +1,33 @@
+História de Usuário: Editar dados de um cliente
+ID: HIST-007
+Título: Atualizar informações do cliente
+
+Como
+recepcionista ou cliente,
+Quero
+editar os dados cadastrais de um cliente,
+Para que
+informações como telefone ou email possam ser mantidas atualizadas.
+
+📄 Descrição Técnica
+
+Criar endpoint PUT /clientes/{id}
+
+Receber um ClienteDTO com os dados atualizados
+
+Validar campos obrigatórios
+
+✅ Critérios de Aceite
+
+Critério	Descrição
+✅	Deve atualizar nome, telefone e email de cliente existente
+✅	Retornar 404 se cliente não existir
+✅	Validar campos com anotações como @NotBlank
+
+🛠️ Tarefas Técnicas
+
+Criar método updateCliente(Long id, ClienteDTO dto) no ClienteService
+
+Criar @PutMapping no ClienteController
+
+Testar atualização com dados válidos e inválidos
