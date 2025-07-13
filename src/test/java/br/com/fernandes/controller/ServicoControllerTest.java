@@ -12,9 +12,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,6 +35,8 @@ class ServicoControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    private final String PATH = "/servicos";
+
     @Test
     @DisplayName("Deve ser criado um serviço com sucesso")
     void testCriarServico() throws Exception {
@@ -39,7 +45,7 @@ class ServicoControllerTest {
 
         when(servicoService.criarServico(any(Servico.class))).thenReturn(servico);
 
-        mockMvc.perform(post("/servicos")
+        mockMvc.perform(post(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(servicoDto)))
                 .andExpect(status().isCreated())
@@ -56,7 +62,7 @@ class ServicoControllerTest {
 
         when(servicoService.criarServico(any(Servico.class))).thenReturn(servico);
 
-        mockMvc.perform(post("/servicos")
+        mockMvc.perform(post(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(servicoDto)))
                 .andExpect(status().isCreated())
@@ -70,7 +76,7 @@ class ServicoControllerTest {
     void testErrorAoEnviarDadosInvalidos() throws Exception {
         ServicoDTO servicoDTO = new ServicoDTO(null, null, 60.00D);
 
-        mockMvc.perform(post("/servicos")
+        mockMvc.perform(post(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(servicoDTO)))
                 .andExpect(status().isBadRequest());
@@ -81,9 +87,26 @@ class ServicoControllerTest {
     void testErrorAoEnviarprecoInvalidos() throws Exception {
         ServicoDTO servicoDTO = new ServicoDTO("Corte cabelo", null, 0.00D);
 
-        mockMvc.perform(post("/servicos")
+        mockMvc.perform(post(PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(servicoDTO)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Deve retornar a lista de serviços.")
+    void testeDeveRetornarListaServicos() throws Exception {
+        List<Servico> servicos = new ArrayList<>();
+        servicos.add(new Servico("Pezinho", 20.00D));
+        servicos.add(new Servico("Corte de cabelo", 80.00D));
+
+        when(servicoService.listarServicos()).thenReturn(servicos);
+
+        mockMvc.perform(get(PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(servicos)))
+                .andExpect(jsonPath("$[0].nome").value(servicos.get(0).getNome()))
+                .andExpect(jsonPath("$[0].preco").value(servicos.get(0).getPreco()))
+                .andExpect(jsonPath("$.length()").value(2));
     }
 }
