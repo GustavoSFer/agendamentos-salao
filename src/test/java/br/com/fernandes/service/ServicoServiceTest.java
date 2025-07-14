@@ -1,6 +1,7 @@
 package br.com.fernandes.service;
 
 import br.com.fernandes.entities.Servico;
+import br.com.fernandes.exceptions.ServicoNotFoundException;
 import br.com.fernandes.repository.ServicoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,11 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.lang.reflect.Executable;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ServicoServiceTest {
 
@@ -85,5 +87,20 @@ class ServicoServiceTest {
         assertEquals(servico.getDescricao(), servicoRetornado.getDescricao());
         assertEquals(servico.getPreco(), servicoRetornado.getPreco());
         assertEquals(servico.getId(), servicoRetornado.getId());
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma exception quando não tiver o servico informado pelo id")
+    void testDeveRetornarExceptionServicoNaoEncontrado() {
+        Servico servico = new Servico();
+        servico.setId(1L);
+        servico.setNome("Corte de cabelo masculino");
+        servico.setPreco(60.00D);
+
+        Exception error = assertThrows(ServicoNotFoundException.class, () ->
+                servicoService.buscarServicoPeloId(25L));
+
+        assertEquals("Serviço informado não encontrado.", error.getMessage());
+        verify(servicoRepository, times(1)).findById(25L);
     }
 }
