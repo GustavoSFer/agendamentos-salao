@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -65,5 +67,23 @@ class ServicoServiceTest {
         assertThat(response.getId()).isEqualTo(1L);
         assertThat(response.getDescricao()).isBlank();
         assertThat(response.getNome()).isEqualTo(servico.getNome());
+    }
+
+    @Test
+    @DisplayName("Deve retornar um serviço buscando pelo id 1")
+    void testBuscarServicoPeloId() {
+        Servico servico = new Servico();
+        servico.setId(1L);
+        servico.setNome("Corte de cabelo masculino");
+        servico.setPreco(60.00D);
+
+        when(servicoRepository.findById(1L)).thenReturn(Optional.of(servico));
+
+        Servico servicoRetornado = servicoService.buscarServicoPeloId(1L);
+
+        assertEquals(servico.getNome(), servicoRetornado.getNome());
+        assertEquals(servico.getDescricao(), servicoRetornado.getDescricao());
+        assertEquals(servico.getPreco(), servicoRetornado.getPreco());
+        assertEquals(servico.getId(), servicoRetornado.getId());
     }
 }
