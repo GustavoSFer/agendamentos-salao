@@ -107,6 +107,21 @@ class ServicoControllerTest {
                 .content(objectMapper.writeValueAsString(servicos)))
                 .andExpect(jsonPath("$[0].nome").value(servicos.get(0).getNome()))
                 .andExpect(jsonPath("$[0].preco").value(servicos.get(0).getPreco()))
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista de serviços vazio.")
+    void testeDeveRetornarListaServicosvazio() throws Exception {
+        List<Servico> servicos = new ArrayList<>();
+
+        when(servicoService.listarServicos()).thenReturn(servicos);
+
+        mockMvc.perform(get(PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(servicos)))
+                .andExpect(jsonPath("$.length()").value(0))
+                .andExpect(status().isOk());
     }
 }
