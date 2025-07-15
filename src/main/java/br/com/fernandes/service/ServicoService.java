@@ -23,4 +23,11 @@ public class ServicoService {
 
         return servico.orElseThrow(() -> new ServicoNotFoundException("Serviço informado não encontrado."));
     }
+
+    public Servico deletarServico(Long id) {
+        Servico servico = buscarServicoPeloId(id);
+
+        servicoRepository.delete(servico);
+        return servico;
+    }
 }

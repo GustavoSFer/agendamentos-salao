@@ -35,4 +35,11 @@ public class ServicoController {
 
         return ResponseEntity.ok().body(servico);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Servico> deletarServico(@PathVariable Long id) {
+        Servico servico = servicoService.deletarServico(id);
+
+        return ResponseEntity.ok().body(servico);
+    }
 }
