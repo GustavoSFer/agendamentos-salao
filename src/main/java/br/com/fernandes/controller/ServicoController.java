@@ -38,8 +38,15 @@ public class ServicoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Servico> deletarServico(@PathVariable Long id) {
-        Servico servico = servicoService.deletarServico(id);
+        servicoService.deletarServico(id);
 
-        return ResponseEntity.ok().body(servico);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Servico> atualizarServico(@RequestBody Servico servicoAtual) {
+        Servico servicoAtualizado = servicoService.atualizarServico(servicoAtual);
+
+        return ResponseEntity.ok().body(servicoAtualizado);
     }
 }

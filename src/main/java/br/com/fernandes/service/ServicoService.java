@@ -24,10 +24,24 @@ public class ServicoService {
         return servico.orElseThrow(() -> new ServicoNotFoundException("Serviço informado não encontrado."));
     }
 
-    public Servico deletarServico(Long id) {
+    public void deletarServico(Long id) {
         Servico servico = buscarServicoPeloId(id);
 
         servicoRepository.delete(servico);
-        return servico;
+    }
+
+    public Servico atualizarServico(Servico servicoAtual) {
+        Servico servicoAntigo = buscarServicoPeloId(servicoAtual.getId());
+        Servico servicoAtualizado = atualizandoServico(servicoAntigo, servicoAtual);
+
+        return servicoRepository.save(servicoAtualizado);
+    }
+
+    private Servico atualizandoServico(Servico servicoAntigo, Servico ServicoAtual) {
+        servicoAntigo.setNome(ServicoAtual.getNome());
+        servicoAntigo.setDescricao(ServicoAtual.getDescricao());
+        servicoAntigo.setPreco(ServicoAtual.getPreco());
+
+        return servicoAntigo;
     }
 }
