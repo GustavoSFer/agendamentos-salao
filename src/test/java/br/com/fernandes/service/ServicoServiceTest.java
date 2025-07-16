@@ -119,4 +119,22 @@ class ServicoServiceTest {
 
         verify(servicoRepository, times(1)).delete(servico);
     }
+
+    @Test
+    @DisplayName("Deve ser possivel atualizar um servico")
+    void testAtualizandoUmServico() {
+        Servico servicoAntigo = new Servico();
+        servicoAntigo.setId(1L);
+        servicoAntigo.setNome("Corte de cabelo masculino");
+        servicoAntigo.setPreco(60.00D);
+
+        when(servicoRepository.findById(1L)).thenReturn(Optional.of(servicoAntigo));
+        when(servicoRepository.save(any(Servico.class))).thenReturn(servicoAntigo);
+
+        Servico servicoAtualizado = servicoService.atualizarServico(servicoAntigo);
+
+        assertEquals("Corte de cabelo masculino", servicoAtualizado.getNome());
+        assertEquals(60.00D, servicoAtualizado.getPreco());
+    }
+
 }
