@@ -8,9 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
 import org.mockito.MockitoAnnotations;
 
-import java.lang.reflect.Executable;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -102,5 +102,21 @@ class ServicoServiceTest {
 
         assertEquals("Serviço informado não encontrado.", error.getMessage());
         verify(servicoRepository, times(1)).findById(25L);
+    }
+
+    @Test
+    @DisplayName("Deve ser possivel deletar um servico.")
+    void testDeletarServico() {
+        Servico servico = new Servico();
+        servico.setId(1L);
+        servico.setNome("Corte de cabelo masculino");
+        servico.setPreco(60.00D);
+
+        when(servicoRepository.findById(1L)).thenReturn(Optional.of(servico));
+        doNothing().when(servicoRepository).delete(servico);
+
+        servicoService.deletarServico(1L);
+
+        verify(servicoRepository, times(1)).delete(servico);
     }
 }
