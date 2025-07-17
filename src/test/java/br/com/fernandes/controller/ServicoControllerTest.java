@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,6 +32,8 @@ class ServicoControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    private final String PATH = "/servicos";
+
     @Test
     @DisplayName("Deve ser criado um serviço com sucesso")
     void testCriarServico() throws Exception {
@@ -39,7 +42,7 @@ class ServicoControllerTest {
 
         when(servicoService.criarServico(any(Servico.class))).thenReturn(servico);
 
-        mockMvc.perform(post("/servicos")
+        mockMvc.perform(post(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(servicoDto)))
                 .andExpect(status().isCreated())
@@ -56,7 +59,7 @@ class ServicoControllerTest {
 
         when(servicoService.criarServico(any(Servico.class))).thenReturn(servico);
 
-        mockMvc.perform(post("/servicos")
+        mockMvc.perform(post(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(servicoDto)))
                 .andExpect(status().isCreated())
@@ -70,7 +73,7 @@ class ServicoControllerTest {
     void testErrorAoEnviarDadosInvalidos() throws Exception {
         ServicoDTO servicoDTO = new ServicoDTO(null, null, 60.00D);
 
-        mockMvc.perform(post("/servicos")
+        mockMvc.perform(post(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(servicoDTO)))
                 .andExpect(status().isBadRequest());
@@ -81,9 +84,28 @@ class ServicoControllerTest {
     void testErrorAoEnviarprecoInvalidos() throws Exception {
         ServicoDTO servicoDTO = new ServicoDTO("Corte cabelo", null, 0.00D);
 
-        mockMvc.perform(post("/servicos")
+        mockMvc.perform(post(PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(servicoDTO)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Deve retornar um servico na busca pelo id")
+    void testFindById() throws Exception {
+        Servico servico = new Servico();
+        servico.setNome("Corte cabelo");
+        servico.setPreco(80.00D);
+        servico.setId(1L);
+        servico.setDescricao("Corte de cabelo");
+
+        when(servicoService.buscarServicoPeloId(1L)).thenReturn(servico);
+
+        mockMvc.perform(get(PATH + "/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.nome").value("Corte cabelo"))
+                .andExpect(jsonPath("$.preco").value(80.00D));
     }
 }
