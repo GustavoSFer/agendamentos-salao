@@ -118,4 +118,23 @@ class ServicoControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    @DisplayName("Deve ser possivel atualizar um servico")
+    void testAtualizarServico() throws Exception {
+        Servico servico = new Servico();
+        servico.setNome("Corte cabelo atual");
+        servico.setPreco(120.00D);
+        servico.setId(1L);
+        servico.setDescricao("Corte de cabelo");
+
+        when(servicoService.atualizarServico(any(Servico.class))).thenReturn(servico);
+
+        mockMvc.perform(put(PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(servico)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("Corte cabelo atual"))
+                .andExpect(jsonPath("$.preco").value(120.00));
+    }
 }
