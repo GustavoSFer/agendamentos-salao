@@ -6,6 +6,8 @@ import br.com.fernandes.repository.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +20,13 @@ public class ServicoService {
         return servicoRepository.save(servico);
     }
 
+   public List<Servico> listarServicos() {
+        List<Servico> servicos = servicoRepository.findAll();
+       List<Servico> servicosOrdenados = servicos.stream().sorted(Comparator.comparing(Servico::getNome)).toList();
+        return servicosOrdenados;
+
+    }
+  
     public Servico buscarServicoPeloId(Long id) {
         Optional<Servico> servico = servicoRepository.findById(id);
 
@@ -44,4 +53,5 @@ public class ServicoService {
 
         return servicoAntigo;
     }
+   
 }

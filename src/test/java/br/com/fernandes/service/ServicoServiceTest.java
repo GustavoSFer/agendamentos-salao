@@ -10,7 +10,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+
 import java.util.Optional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -136,4 +140,30 @@ class ServicoServiceTest {
         assertEquals(60.00D, servicoAtualizado.getPreco());
     }
 
+    @DisplayName("Deve ser retornado a lista de serviços ordenado pelo nome")
+    void testeRetornarListaServicoOrdenado() {
+        List<Servico> servicos = new ArrayList<>();
+        servicos.add(new Servico("Pezinho", 20.00D));
+        servicos.add(new Servico("Corte de cabelo", 80.00D));
+
+        when(servicoRepository.findAll()).thenReturn(servicos);
+
+        List<Servico> listaServicos = servicoService.listarServicos();
+
+        assertEquals("Corte de cabelo", listaServicos.get(0).getNome());
+        assertEquals(80D, listaServicos.get(0).getPreco());
+        assertEquals(2, listaServicos.size());
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista vazia quando nao tiver serviços.")
+    void testeRetornarListaVazia() {
+        List<Servico> servicos = new ArrayList<>();
+
+        when(servicoRepository.findAll()).thenReturn(servicos);
+
+        List<Servico> listaServicos = servicoService.listarServicos();
+
+        assertEquals(0, listaServicos.size());
+    }
 }

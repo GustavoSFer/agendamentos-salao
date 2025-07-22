@@ -12,11 +12,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -136,5 +144,36 @@ class ServicoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("Corte cabelo atual"))
                 .andExpect(jsonPath("$.preco").value(120.00));
+    }
+  
+    @DisplayName("Deve retornar a lista de serviços.")
+    void testeDeveRetornarListaServicos() throws Exception {
+        List<Servico> servicos = new ArrayList<>();
+        servicos.add(new Servico("Pezinho", 20.00D));
+        servicos.add(new Servico("Corte de cabelo", 80.00D));
+
+        when(servicoService.listarServicos()).thenReturn(servicos);
+
+        mockMvc.perform(get(PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(servicos)))
+                .andExpect(jsonPath("$[0].nome").value(servicos.get(0).getNome()))
+                .andExpect(jsonPath("$[0].preco").value(servicos.get(0).getPreco()))
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista de serviços vazio.")
+    void testeDeveRetornarListaServicosvazio() throws Exception {
+        List<Servico> servicos = new ArrayList<>();
+
+        when(servicoService.listarServicos()).thenReturn(servicos);
+
+        mockMvc.perform(get(PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(servicos)))
+                .andExpect(jsonPath("$.length()").value(0))
+                .andExpect(status().isOk());
     }
 }

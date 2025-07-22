@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/servicos")
@@ -26,6 +27,13 @@ public class ServicoController {
         URI location = URI.create("/servicos" + servicoCriado.getId());
 
         return ResponseEntity.created(location).body(servicoCriado);
+    }
+  
+    @GetMapping
+    public ResponseEntity<List<Servico>> listarServicos() {
+        List<Servico> servicos = servicoService.listarServicos();
+
+        return ResponseEntity.ok().body(servicos);
     }
 
     @GetMapping("/{id}")
