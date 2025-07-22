@@ -5,7 +5,6 @@ import br.com.fernandes.entities.Servico;
 import br.com.fernandes.service.ServicoService;
 import br.com.fernandes.util.ServicoMapper;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +28,32 @@ public class ServicoController {
 
         return ResponseEntity.created(location).body(servicoCriado);
     }
-
+  
     @GetMapping
     public ResponseEntity<List<Servico>> listarServicos() {
         List<Servico> servicos = servicoService.listarServicos();
 
         return ResponseEntity.ok().body(servicos);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Servico> buscaServicoPeloId(@PathVariable Long id) {
+        Servico servico = servicoService.buscarServicoPeloId(id);
+
+        return ResponseEntity.ok().body(servico);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Servico> deletarServico(@PathVariable Long id) {
+        servicoService.deletarServico(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Servico> atualizarServico(@RequestBody Servico servicoAtual) {
+        Servico servicoAtualizado = servicoService.atualizarServico(servicoAtual);
+
+        return ResponseEntity.ok().body(servicoAtualizado);
     }
 }

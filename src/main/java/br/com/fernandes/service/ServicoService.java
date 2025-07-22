@@ -20,15 +20,38 @@ public class ServicoService {
         return servicoRepository.save(servico);
     }
 
+   public List<Servico> listarServicos() {
+        List<Servico> servicos = servicoRepository.findAll();
+       List<Servico> servicosOrdenados = servicos.stream().sorted(Comparator.comparing(Servico::getNome)).toList();
+        return servicosOrdenados;
+
+    }
+  
     public Servico buscarServicoPeloId(Long id) {
         Optional<Servico> servico = servicoRepository.findById(id);
 
         return servico.orElseThrow(() -> new ServicoNotFoundException("Serviço informado não encontrado."));
     }
 
-    public List<Servico> listarServicos() {
-        List<Servico> servicos = servicoRepository.findAll();
-       List<Servico> servicosOrdenados = servicos.stream().sorted(Comparator.comparing(Servico::getNome)).toList();
-        return servicosOrdenados;
+    public void deletarServico(Long id) {
+        Servico servico = buscarServicoPeloId(id);
+
+        servicoRepository.delete(servico);
     }
+
+    public Servico atualizarServico(Servico servicoAtual) {
+        Servico servicoAntigo = buscarServicoPeloId(servicoAtual.getId());
+        Servico servicoAtualizado = atualizandoServico(servicoAntigo, servicoAtual);
+
+        return servicoRepository.save(servicoAtualizado);
+    }
+
+    private Servico atualizandoServico(Servico servicoAntigo, Servico ServicoAtual) {
+        servicoAntigo.setNome(ServicoAtual.getNome());
+        servicoAntigo.setDescricao(ServicoAtual.getDescricao());
+        servicoAntigo.setPreco(ServicoAtual.getPreco());
+
+        return servicoAntigo;
+    }
+   
 }

@@ -17,9 +17,14 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -94,6 +99,53 @@ class ServicoControllerTest {
     }
 
     @Test
+    @DisplayName("Deve retornar um servico na busca pelo id")
+    void testFindById() throws Exception {
+        Servico servico = new Servico();
+        servico.setNome("Corte cabelo");
+        servico.setPreco(80.00D);
+        servico.setId(1L);
+        servico.setDescricao("Corte de cabelo");
+
+        when(servicoService.buscarServicoPeloId(1L)).thenReturn(servico);
+
+        mockMvc.perform(get(PATH + "/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.nome").value("Corte cabelo"))
+                .andExpect(jsonPath("$.preco").value(80.00D));
+    }
+
+    @Test
+    @DisplayName("Deve ser possivel deletar um servico")
+    void testDeletarServico() throws Exception {
+        doNothing().when(servicoService).deletarServico(1L);
+
+        mockMvc.perform(delete(PATH + "/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Deve ser possivel atualizar um servico")
+    void testAtualizarServico() throws Exception {
+        Servico servico = new Servico();
+        servico.setNome("Corte cabelo atual");
+        servico.setPreco(120.00D);
+        servico.setId(1L);
+        servico.setDescricao("Corte de cabelo");
+
+        when(servicoService.atualizarServico(any(Servico.class))).thenReturn(servico);
+
+        mockMvc.perform(put(PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(servico)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("Corte cabelo atual"))
+                .andExpect(jsonPath("$.preco").value(120.00));
+    }
+  
     @DisplayName("Deve retornar a lista de serviços.")
     void testeDeveRetornarListaServicos() throws Exception {
         List<Servico> servicos = new ArrayList<>();
