@@ -7,10 +7,9 @@ import br.com.fernandes.util.ClienteMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
@@ -24,5 +23,12 @@ public class ClienteController {
         Cliente cliente = ClienteMapper.ClienteDtoToCliente(clienteDTO);
         Cliente clienteCriado = clienteService.crairCliente(cliente);
         return ResponseEntity.ok().body(clienteCriado);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Cliente>> listaClientes() {
+        List<Cliente> clientes = clienteService.listarClientes();
+
+        return ResponseEntity.ok().body(clientes);
     }
 }

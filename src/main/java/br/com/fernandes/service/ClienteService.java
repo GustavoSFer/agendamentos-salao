@@ -6,6 +6,7 @@ import br.com.fernandes.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,5 +23,9 @@ public class ClienteService {
         Optional<Cliente> cliente = clienteRepository.findById(id);
 
         return cliente.orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado"));
+    }
+
+    public List<Cliente> listarClientes() {
+        return clienteRepository.findAll();
     }
 }
