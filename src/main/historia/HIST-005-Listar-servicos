@@ -2,12 +2,8 @@ História de Usuário: Listar os serviços
 ID: HIST-005
 Título: Listar serviços disponíveis
 
-Como
-cliente ou recepcionista do salão,
-Quero
-visualizar todos os serviços oferecidos,
-Para que
-possa escolher o serviço desejado para agendamento.
+Como cliente ou recepcionista do salão, Quero visualizar todos os serviços oferecidos,
+Para que possa escolher o serviço desejado para agendamento.
 
 📄 Descrição Técnica
 
@@ -35,4 +31,4 @@ Mapear entidade para DTO de retorno
 🔁 CRUD Necessário:
 Você já tem a criação (C) da entidade Servico.
 📌 Faltam os outros do CRUD:
-Criarei uma história logo abaixo para isso (HIST-013).
+Criarei uma história logo abaixo para isso.
