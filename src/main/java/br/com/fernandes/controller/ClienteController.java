@@ -25,6 +25,13 @@ public class ClienteController {
         return ResponseEntity.ok().body(clienteCriado);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> buscaClienteId(@PathVariable Long id) {
+        Cliente cliente = clienteService.buscaClientePeloId(id);
+
+        return ResponseEntity.ok().body(cliente);
+    }
+
     @GetMapping
     public ResponseEntity<List<Cliente>> listaClientes() {
         List<Cliente> clientes = clienteService.listarClientes();
