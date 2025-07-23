@@ -43,4 +43,10 @@ public class ClienteService {
 
         return clienteAntigo;
     }
+
+    public void deleteCliente(Long id) {
+        Cliente cliente = buscaClientePeloId(id);
+
+        clienteRepository.delete(cliente);
+    }
 }
