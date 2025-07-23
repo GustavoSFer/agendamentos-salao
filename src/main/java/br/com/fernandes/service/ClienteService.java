@@ -28,4 +28,19 @@ public class ClienteService {
     public List<Cliente> listarClientes() {
         return clienteRepository.findAll();
     }
+
+    public Cliente atualizaCliente(Cliente clienteAtualizar) {
+        Cliente clienteAntigo = buscaClientePeloId(clienteAtualizar.getId());
+        Cliente clienteAtualizado = atualiza(clienteAntigo, clienteAtualizar);
+
+        return clienteRepository.save(clienteAtualizado);
+    }
+
+    private Cliente atualiza(Cliente clienteAntigo, Cliente clienteAtualizar) {
+        clienteAntigo.setNome(clienteAtualizar.getNome());
+        clienteAntigo.setEmail(clienteAtualizar.getEmail());
+        clienteAntigo.setTelefone(clienteAtualizar.getTelefone());
+
+        return clienteAntigo;
+    }
 }

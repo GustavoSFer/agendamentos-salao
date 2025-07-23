@@ -38,4 +38,11 @@ public class ClienteController {
 
         return ResponseEntity.ok().body(clientes);
     }
+
+    @PutMapping
+    public ResponseEntity<Cliente> atualizarCliente(@RequestBody Cliente cliente) {
+        Cliente clienteAtualizado = clienteService.atualizaCliente(cliente);
+
+        return ResponseEntity.ok().body(clienteAtualizado);
+    }
 }
