@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -136,9 +137,9 @@ class ServicoControllerTest {
         servico.setId(1L);
         servico.setDescricao("Corte de cabelo");
 
-        when(servicoService.atualizarServico(any(Servico.class))).thenReturn(servico);
+        when(servicoService.atualizarServico(any(Servico.class), eq(1L))).thenReturn(servico);
 
-        mockMvc.perform(put(PATH)
+        mockMvc.perform(put(PATH + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(servico)))
                 .andExpect(status().isOk())

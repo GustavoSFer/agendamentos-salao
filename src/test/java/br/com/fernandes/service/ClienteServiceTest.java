@@ -40,7 +40,7 @@ class ClienteServiceTest {
 
         when(clienteRepository.save(cliente)).thenReturn(clienteSalvo);
 
-        Cliente resultado = clienteService.crairCliente(cliente);
+        Cliente resultado = clienteService.criarCliente(cliente);
 
         assertNotNull(cliente);
         assertEquals("Gustavo Fernandes", resultado.getNome());

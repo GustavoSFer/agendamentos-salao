@@ -29,8 +29,8 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Cliente atualizaCliente(Cliente clienteAtualizar) {
-        Cliente clienteAntigo = buscaClientePeloId(clienteAtualizar.getId());
+    public Cliente atualizaCliente(Cliente clienteAtualizar, Long id) {
+        Cliente clienteAntigo = buscaClientePeloId(id);
         Cliente clienteAtualizado = atualiza(clienteAntigo, clienteAtualizar);
 
         return clienteRepository.save(clienteAtualizado);

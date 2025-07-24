@@ -50,9 +50,9 @@ public class ServicoController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping
-    public ResponseEntity<Servico> atualizarServico(@RequestBody Servico servicoAtual) {
-        Servico servicoAtualizado = servicoService.atualizarServico(servicoAtual);
+    @PutMapping("/{id}")
+    public ResponseEntity<Servico> atualizarServico(@RequestBody Servico servicoAtual, @PathVariable Long id) {
+        Servico servicoAtualizado = servicoService.atualizarServico(servicoAtual, id);
 
         return ResponseEntity.ok().body(servicoAtualizado);
     }

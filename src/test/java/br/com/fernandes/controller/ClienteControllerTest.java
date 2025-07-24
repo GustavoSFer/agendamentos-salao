@@ -40,12 +40,12 @@ class ClienteControllerTest {
         clienteCriado.setTelefone(clienteDTO.telefone());
         clienteCriado.setEmail(clienteDTO.email());
 
-        when(clienteService.crairCliente(any(Cliente.class))).thenReturn(clienteCriado);
+        when(clienteService.criarCliente(any(Cliente.class))).thenReturn(clienteCriado);
 
         mockMvc.perform(post("/clientes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(clienteDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.nome").value("Gustavo Fernandes"));
     }

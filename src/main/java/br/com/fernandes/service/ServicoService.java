@@ -39,8 +39,8 @@ public class ServicoService {
         servicoRepository.delete(servico);
     }
 
-    public Servico atualizarServico(Servico servicoAtual) {
-        Servico servicoAntigo = buscarServicoPeloId(servicoAtual.getId());
+    public Servico atualizarServico(Servico servicoAtual, Long id) {
+        Servico servicoAntigo = buscarServicoPeloId(id);
         Servico servicoAtualizado = atualizandoServico(servicoAntigo, servicoAtual);
 
         return servicoRepository.save(servicoAtualizado);
