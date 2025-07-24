@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,6 +31,8 @@ class ClienteControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    private final String PATH = "/clientes";
+
     @Test
     @DisplayName("Deve ser criado um cliente com sucesso.")
     void criarClienteTest() throws Exception {
@@ -42,7 +45,7 @@ class ClienteControllerTest {
 
         when(clienteService.criarCliente(any(Cliente.class))).thenReturn(clienteCriado);
 
-        mockMvc.perform(post("/clientes")
+        mockMvc.perform(post(PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(clienteDTO)))
                 .andExpect(status().isCreated())
@@ -55,10 +58,28 @@ class ClienteControllerTest {
     public void deveRetornarFalhaComBodyErradoTest() throws Exception {
         ClienteDTO clienteDTO = new ClienteDTO("Gustavo Fernandes", "11856952245", null);
 
-        mockMvc.perform(post("/clientes")
+        mockMvc.perform(post(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(clienteDTO)))
                 .andExpect(status().isBadRequest());
+    }
 
+    @Test
+    @DisplayName("Deve retornar um cliente quando passando um id do cliente")
+    public void testRetornarClientePeloId() throws Exception {
+        Cliente cliente = new Cliente();
+        cliente.setId(1L);
+        cliente.setTelefone("11965981152");
+        cliente.setNome("Gustavo Fer");
+        cliente.setEmail("gustavo@gmail.com");
+
+        when(clienteService.buscaClientePeloId(1L)).thenReturn(cliente);
+
+        mockMvc.perform(get(PATH + "/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.nome").value("Gustavo Fer"))
+                .andExpect(jsonPath("$.email").value("gustavo@gmail.com"));
     }
 }
