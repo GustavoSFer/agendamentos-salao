@@ -9,9 +9,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class ClienteServiceTest {
@@ -46,5 +49,21 @@ class ClienteServiceTest {
         assertEquals("Gustavo Fernandes", resultado.getNome());
         assertThat(resultado.getNome()).isEqualTo("Gustavo Fernandes");
         assertThat(resultado.getId()).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("Deve ser possivel buscar cliente pelo seu id")
+    void testBuscaClientePeloId() {
+        Cliente cliente = new Cliente();
+        cliente.setId(1L);
+        cliente.setNome("Nome do cliente");
+        cliente.setTelefone("11963692525");
+        cliente.setEmail("cliente@gmail.com");
+
+        when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
+
+        assertThat(cliente.getNome()).isEqualTo("Nome do cliente");
+        assertThat(cliente.getId()).isEqualTo(1L);
+        assertThat(cliente.getEmail()).isEqualTo("cliente@gmail.com");
     }
 }
