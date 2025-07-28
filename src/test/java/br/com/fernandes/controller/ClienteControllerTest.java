@@ -18,8 +18,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -122,6 +121,25 @@ class ClienteControllerTest {
         mockMvc.perform(get(PATH)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.size()").value(0));
+    }
+
+    @Test
+    @DisplayName("Deve ser possivel atualizar um cliente")
+    void testAtualizarCliente() throws Exception {
+        Cliente cliente = new Cliente();
+        cliente.setId(1L);
+        cliente.setTelefone("11965981152");
+        cliente.setNome("Gustavo Fernandes");
+        cliente.setEmail("gustavoF@gmail.com");
+
+        when(clienteService.atualizaCliente(cliente, 1L)).thenReturn(cliente);
+
+        mockMvc.perform(put(PATH + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cliente)))
+                .andExpect(jsonPath("$.nome").value("Gustavo Fernandes"))
+                .andExpect(jsonPath("$.email").value("gustavoF@gmail.com"))
+                .andExpect(jsonPath("$.id").value(1));
     }
 
 }
