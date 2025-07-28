@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -144,4 +145,13 @@ class ClienteControllerTest {
                 .andExpect(jsonPath("$.id").value(1));
     }
 
+    @Test
+    @DisplayName("Deve ser possivel deletar um cliente")
+    void testDeletarCliente() throws Exception {
+        doNothing().when(clienteService).deleteCliente(1L);
+
+        mockMvc.perform(delete(PATH + "/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
 }
