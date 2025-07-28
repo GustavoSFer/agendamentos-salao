@@ -12,6 +12,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -82,4 +86,42 @@ class ClienteControllerTest {
                 .andExpect(jsonPath("$.nome").value("Gustavo Fer"))
                 .andExpect(jsonPath("$.email").value("gustavo@gmail.com"));
     }
+
+    @Test
+    @DisplayName("Deve retornar uma lista de clientes")
+    void testRetornaListaClientes() throws Exception {
+        Cliente cliente = new Cliente();
+        cliente.setId(1L);
+        cliente.setTelefone("11965981152");
+        cliente.setNome("Gustavo Fer");
+        cliente.setEmail("gustavo@gmail.com");
+
+        Cliente cliente2 = new Cliente();
+        cliente2.setId(1L);
+        cliente2.setTelefone("119600081199");
+        cliente2.setNome("Amanda Silva");
+        cliente2.setEmail("amandinha@gmail.com");
+
+        List<Cliente> clientes = Arrays.asList(cliente, cliente2);
+
+        when(clienteService.listarClientes()).thenReturn(clientes);
+
+        mockMvc.perform(get(PATH)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.size()").value(2))
+                .andExpect(jsonPath("$[0].email").value("gustavo@gmail.com"));
+    }
+
+    @Test
+    @DisplayName("Deve retornar um array vazio quando não existir clientes")
+    void testRetornaArrayVazio() throws Exception {
+        List<Cliente> clientes = new ArrayList<>();
+
+        when(clienteService.listarClientes()).thenReturn(clientes);
+
+        mockMvc.perform(get(PATH)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.size()").value(0));
+    }
+
 }
