@@ -120,6 +120,7 @@ class ClienteControllerTest {
 
         mockMvc.perform(get(PATH)
                 .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(0));
     }
 
@@ -137,6 +138,7 @@ class ClienteControllerTest {
         mockMvc.perform(put(PATH + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(cliente)))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("Gustavo Fernandes"))
                 .andExpect(jsonPath("$.email").value("gustavoF@gmail.com"))
                 .andExpect(jsonPath("$.id").value(1));
