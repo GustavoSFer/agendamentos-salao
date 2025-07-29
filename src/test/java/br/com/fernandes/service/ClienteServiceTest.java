@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -97,5 +98,17 @@ class ClienteServiceTest {
 
         assertEquals(2, resultadoClientes.size());
         assertEquals("nome", resultadoClientes.get(0).getNome());
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma array vazio quando nao existir uma lista de clientes")
+    void testRetornaListaVaziaDeClientes() {
+        List<Cliente> clientes = new ArrayList<>();
+
+        when(clienteRepository.findAll()).thenReturn(clientes);
+
+        List<Cliente> resultadoClientes = clienteService.listarClientes();
+
+        assertEquals(0, resultadoClientes.size());
     }
 }
