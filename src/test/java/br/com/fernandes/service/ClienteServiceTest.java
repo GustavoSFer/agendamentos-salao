@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -79,5 +81,21 @@ class ClienteServiceTest {
 
         assertEquals("Cliente não encontrado", error.getMessage());
         verify(clienteRepository, times(1)).findById(2L);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista de clientes")
+    void testRetornaListaClientes() {
+        List<Cliente> clientes = Arrays.asList(
+                new Cliente("nome", "11852588888", "nome@gmail.com"),
+                new Cliente("pessoa 2", "11458785555", "pessoa2@gmail.com")
+        );
+
+        when(clienteRepository.findAll()).thenReturn(clientes);
+
+        List<Cliente> resultadoClientes = clienteService.listarClientes();
+
+        assertEquals(2, resultadoClientes.size());
+        assertEquals("nome", resultadoClientes.get(0).getNome());
     }
 }
