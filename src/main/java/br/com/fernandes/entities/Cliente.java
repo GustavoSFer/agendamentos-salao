@@ -1,9 +1,7 @@
 package br.com.fernandes.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import br.com.fernandes.enums.TipoCliente;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,6 +15,8 @@ public class Cliente implements Serializable {
     private String nome;
     private String telefone;
     private String email;
+    @Enumerated(EnumType.STRING)
+    private TipoCliente status;
 
     public Cliente() {
     }

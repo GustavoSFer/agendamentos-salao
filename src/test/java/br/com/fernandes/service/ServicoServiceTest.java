@@ -134,7 +134,7 @@ class ServicoServiceTest {
         when(servicoRepository.findById(1L)).thenReturn(Optional.of(servicoAntigo));
         when(servicoRepository.save(any(Servico.class))).thenReturn(servicoAntigo);
 
-        Servico servicoAtualizado = servicoService.atualizarServico(servicoAntigo);
+        Servico servicoAtualizado = servicoService.atualizarServico(servicoAntigo, 1L);
 
         assertEquals("Corte de cabelo masculino", servicoAtualizado.getNome());
         assertEquals(60.00D, servicoAtualizado.getPreco());
