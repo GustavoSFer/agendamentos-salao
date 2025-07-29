@@ -111,4 +111,25 @@ class ClienteServiceTest {
 
         assertEquals(0, resultadoClientes.size());
     }
+
+    @Test
+    @DisplayName("Atualizando um cliente")
+    void testAtualizarCliente() {
+        Cliente clienteAntigo = new Cliente("Cliente antigo", "11236563333", "cliente@gmail.com");
+        Cliente clienteAtual = new Cliente("Cliente atualizado", "11236563333", "cliente@gmail.com");
+        Cliente clienteAtualizado = new Cliente();
+        clienteAtualizado.setEmail(clienteAtual.getEmail());
+        clienteAtualizado.setNome(clienteAtual.getNome());
+        clienteAtualizado.setTelefone(clienteAtual.getTelefone());
+        clienteAtualizado.setId(1L);
+
+        when(clienteRepository.findById(1L)).thenReturn(Optional.of(clienteAntigo));
+        when(clienteRepository.save(clienteAtual)).thenReturn(clienteAtualizado);
+
+        Cliente resultado = clienteService.atualizaCliente(clienteAntigo, 1L);
+
+        assertEquals(resultado.getNome(), clienteAtual.getNome());
+        assertEquals(resultado.getId(), 1L);
+        assertEquals(resultado.getEmail(), clienteAtual.getEmail());
+    }
 }
