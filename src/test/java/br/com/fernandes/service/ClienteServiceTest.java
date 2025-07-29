@@ -132,4 +132,22 @@ class ClienteServiceTest {
         assertEquals(resultado.getId(), 1L);
         assertEquals(resultado.getEmail(), clienteAtual.getEmail());
     }
+
+    @Test
+    @DisplayName("Deve ser possivel deletar um cliente")
+    void testDeletandoCliente() {
+        Long id = 1L;
+
+        Cliente cliente = new Cliente();
+        cliente.setId(id);
+        cliente.setNome("João");
+        cliente.setEmail("joao@email.com");
+
+        when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
+
+        clienteService.deleteCliente(id);
+
+        verify(clienteRepository, times(1)).findById(id);
+        verify(clienteRepository, times(1)).delete(cliente);
+    }
 }
