@@ -1,6 +1,7 @@
 package br.com.fernandes.service;
 
 import br.com.fernandes.entities.Cliente;
+import br.com.fernandes.exceptions.ClienteNotFoundException;
 import br.com.fernandes.repository.ClienteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,10 +13,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class ClienteServiceTest {
 
@@ -62,8 +61,23 @@ class ClienteServiceTest {
 
         when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
 
-        assertThat(cliente.getNome()).isEqualTo("Nome do cliente");
-        assertThat(cliente.getId()).isEqualTo(1L);
-        assertThat(cliente.getEmail()).isEqualTo("cliente@gmail.com");
+        Cliente clienteResult = clienteService.buscaClientePeloId(1L);
+
+        assertThat(clienteResult.getNome()).isEqualTo("Nome do cliente");
+        assertThat(clienteResult.getId()).isEqualTo(1L);
+        assertThat(clienteResult.getEmail()).isEqualTo("cliente@gmail.com");
+    }
+
+    @Test
+    @DisplayName("Deve retornar um exception ClienteNotFoundException quando não existir o cliente")
+    void testExceptionClienteNotFoundException() {
+        when(clienteRepository.findById(2L)).thenReturn(Optional.empty());
+
+        Exception error = assertThrows(ClienteNotFoundException.class, () ->
+           clienteService.buscaClientePeloId(2L)
+        );
+
+        assertEquals("Cliente não encontrado", error.getMessage());
+        verify(clienteRepository, times(1)).findById(2L);
     }
 }
