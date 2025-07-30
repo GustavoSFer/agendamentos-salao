@@ -1,0 +1,52 @@
+openapi: 3.0.4
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: |-
+      Este projeto é uma aplicação web desenvolvida em Java com Spring Boot,
+      com o objetivo de gerenciar agendamentos de serviços em um salão de beleza
+      ou barbearia.
+  contact:
+    email: 'gustavoFernandes-nao-valido@gmail.com'
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8080/v1'
+paths:
+  /clientes:
+    post:
+      tags:
+        - cliente
+      summary: Criação de um cliente
+      description: Criar um cliente
+      operationId: postCliente
+      requestBody:
+        description: Criacao de um novo cliente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/criarClientes'
+        required: true
+      responses:
+        '201':
+          description: cliente criado com sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCriarClientes'
+components:
+  schemas:
+    criarClientes:
+      type: object
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+    responseCriarClientes:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
