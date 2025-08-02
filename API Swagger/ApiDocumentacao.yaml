@@ -45,6 +45,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responseListaClientes'
+  /clientes/{id}:
+    get:
+      tags:
+        - cliente
+      summary: Retorna um cliente especifico pelo seu id informado
+      description: Retorna um cliente especifico pelo seu id informado
+      operationId: retornaClientePeloId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Retorna o cliente especifico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCliente'
+
 components:
   securitySchemes:
     ApiKeyAuth:
