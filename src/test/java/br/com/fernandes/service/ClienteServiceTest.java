@@ -1,5 +1,6 @@
 package br.com.fernandes.service;
 
+import br.com.fernandes.dto.ClienteDTO;
 import br.com.fernandes.entities.Cliente;
 import br.com.fernandes.exceptions.ClienteNotFoundException;
 import br.com.fernandes.repository.ClienteRepository;
@@ -115,22 +116,28 @@ class ClienteServiceTest {
     @Test
     @DisplayName("Atualizando um cliente")
     void testAtualizarCliente() {
-        Cliente clienteAntigo = new Cliente("Cliente antigo", "11236563333", "cliente@gmail.com");
-        Cliente clienteAtual = new Cliente("Cliente atualizado", "11236563333", "cliente@gmail.com");
+        ClienteDTO clienteDto = new ClienteDTO("Cliente Atualizado", "11236563333", "cliente@gmail.com");
+
+        Cliente cliente = new Cliente();
+        cliente.setEmail("cliente@gmail.com");
+        cliente.setNome("Cliente antigo");
+        cliente.setTelefone("11236563333");
+        cliente.setId(1L);
+
         Cliente clienteAtualizado = new Cliente();
-        clienteAtualizado.setEmail(clienteAtual.getEmail());
-        clienteAtualizado.setNome(clienteAtual.getNome());
-        clienteAtualizado.setTelefone(clienteAtual.getTelefone());
+        clienteAtualizado.setEmail(clienteDto.email());
+        clienteAtualizado.setNome(clienteDto.nome());
+        clienteAtualizado.setTelefone(clienteDto.telefone());
         clienteAtualizado.setId(1L);
 
-        when(clienteRepository.findById(1L)).thenReturn(Optional.of(clienteAntigo));
-        when(clienteRepository.save(clienteAtual)).thenReturn(clienteAtualizado);
+        when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
+        when(clienteRepository.save(any(Cliente.class))).thenReturn(clienteAtualizado);
 
-        Cliente resultado = clienteService.atualizaCliente(clienteAntigo, 1L);
+        Cliente resultado = clienteService.atualizaCliente(clienteDto, 1L);
 
-        assertEquals(resultado.getNome(), clienteAtual.getNome());
+        assertEquals(resultado.getNome(), clienteAtualizado.getNome());
         assertEquals(resultado.getId(), 1L);
-        assertEquals(resultado.getEmail(), clienteAtual.getEmail());
+        assertEquals(resultado.getEmail(), clienteAtualizado.getEmail());
     }
 
     @Test

@@ -128,17 +128,19 @@ class ClienteControllerTest {
     @Test
     @DisplayName("Deve ser possivel atualizar um cliente")
     void testAtualizarCliente() throws Exception {
-        Cliente cliente = new Cliente();
-        cliente.setId(1L);
-        cliente.setTelefone("11965981152");
-        cliente.setNome("Gustavo Fernandes");
-        cliente.setEmail("gustavoF@gmail.com");
+        ClienteDTO clienteDTO = new ClienteDTO("Gustavo Fernandes", "11965981152", "gustavoF@gmail.com");
 
-        when(clienteService.atualizaCliente(cliente, 1L)).thenReturn(cliente);
+        Cliente clienteAtualizado = new Cliente();
+        clienteAtualizado.setId(1L);
+        clienteAtualizado.setNome(clienteDTO.nome());
+        clienteAtualizado.setTelefone(clienteDTO.telefone());
+        clienteAtualizado.setEmail(clienteDTO.email());
+
+        when(clienteService.atualizaCliente(clienteDTO, 1L)).thenReturn(clienteAtualizado);
 
         mockMvc.perform(put(PATH + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cliente)))
+                .content(objectMapper.writeValueAsString(clienteDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("Gustavo Fernandes"))
                 .andExpect(jsonPath("$.email").value("gustavoF@gmail.com"))
