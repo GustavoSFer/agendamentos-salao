@@ -1,4 +1,4 @@
-openapi: 3.0.4
+openapi: 3.0.0
 info:
   title: Swagger Petstore - OpenAPI 3.0
   description: |-
@@ -33,20 +33,55 @@ paths:
               schema:
                 $ref: '#/components/schemas/responseCriarClientes'
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: apikey
+
+    ClientIdHeader:
+      type: apiKey
+      in: header
+      name: client_id
+
+    ClientSecretHeader:
+      type: apiKey
+      in: header
+      name: client_secret
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     criarClientes:
       type: object
       properties:
         nome:
           type: string
+          description: "Nome do cliente"
+        telefone:
+          type: string
+          description: "telefone do cliente"
         email:
           type: string
+          description: "E-mail do cliente"
     responseCriarClientes:
       type: object
       properties:
         id:
           type: integer
+          description: "Id único do cliente"
         nome:
           type: string
+          description: "Nome do cliente"
+        telefone:
+          type: string
+          description: "telefone do cliente"
         email:
           type: string
+          description: "E-mail do cliente"
+        status:
+          type: string
+          description: status do cliente Ativo | Bloqueado | Cancelado
