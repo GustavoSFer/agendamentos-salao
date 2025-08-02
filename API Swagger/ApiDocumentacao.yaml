@@ -31,7 +31,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/responseCriarClientes'
+                $ref: '#/components/schemas/responseCliente'
+    get:
+      tags:
+        - cliente
+      summary: retorna a lista de clientes
+      description: retorna a lista de clientes
+      operationId: listaClientes
+      responses:
+        200:
+          description: Retorna a lista de clientes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseListaClientes'
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -67,7 +80,7 @@ components:
         email:
           type: string
           description: "E-mail do cliente"
-    responseCriarClientes:
+    responseCliente:
       type: object
       properties:
         id:
@@ -85,3 +98,24 @@ components:
         status:
           type: string
           description: status do cliente Ativo | Bloqueado | Cancelado
+
+    responseListaClientes:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: "Id único do cliente"
+          nome:
+            type: string
+            description: "Nome do cliente"
+          telefone:
+            type: string
+            description: "telefone do cliente"
+          email:
+            type: string
+            description: "E-mail do cliente"
+          status:
+            type: string
+            description: status do cliente Ativo | Bloqueado | Cancelado
