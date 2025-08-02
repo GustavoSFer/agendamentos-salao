@@ -45,6 +45,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responseListaClientes'
+    put:
+      tags:
+        - cliente
+      summary: Atualiza cliente
+      description: Atualiza dado do cliente
+      operationId: atualizaCliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/criarClientes'
+      responses:
+        200:
+          description: retorna o cliente atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCliente'
+
   /clientes/{id}:
     get:
       tags:
