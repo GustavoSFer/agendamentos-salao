@@ -63,7 +63,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responseCliente'
-
+   
   /clientes/{id}:
     get:
       tags:
@@ -84,7 +84,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responseCliente'
-
+    delete:
+      tags:
+        - cliente
+      summary: Deleta um cliente
+      description: Remove um cliente do banco de dados
+      operationId: deletaCliente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Cliente deletado com sucesso(sem conteúdo)
+          
 components:
   securitySchemes:
     ApiKeyAuth:
