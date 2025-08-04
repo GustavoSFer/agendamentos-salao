@@ -99,7 +99,25 @@ paths:
       responses:
         204:
           description: Cliente deletado com sucesso(sem conteúdo)
-          
+  /servico:
+    post:
+      tags:
+        - servico
+      summary: Criando um servico
+      description: Criar um serviços
+      operationId: criarServico
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/servico'
+      responses:
+        '201':
+          description: Retorna o servico que foi criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/servicoResponse'   
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -174,3 +192,31 @@ components:
           status:
             type: string
             description: status do cliente Ativo | Bloqueado | Cancelado
+
+    servico:
+      type: object
+      properties:
+        nome:
+          type: string
+          description: Nome do serviço
+        descricao:
+          type: string
+          description: Descrição do servico
+        preco:
+          type: integer
+          description: Valor do servico
+    servicoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador unico do servico
+        nome:
+          type: string
+          description: Nome do serviço
+        descricao:
+          type: string
+          description: Descrição do servico
+        preco:
+          type: integer
+          description: Valor do servico
