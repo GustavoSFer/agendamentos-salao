@@ -1,5 +1,6 @@
 package br.com.fernandes.service;
 
+import br.com.fernandes.dto.ServicoDTO;
 import br.com.fernandes.entities.Servico;
 import br.com.fernandes.exceptions.ServicoNotFoundException;
 import br.com.fernandes.repository.ServicoRepository;
@@ -126,18 +127,27 @@ class ServicoServiceTest {
     @Test
     @DisplayName("Deve ser possivel atualizar um servico")
     void testAtualizandoUmServico() {
-        Servico servicoAntigo = new Servico();
-        servicoAntigo.setId(1L);
-        servicoAntigo.setNome("Corte de cabelo masculino");
-        servicoAntigo.setPreco(60.00D);
+        ServicoDTO servicoDTO = new ServicoDTO("Corte", "somente corte", 120.00D);
 
-        when(servicoRepository.findById(1L)).thenReturn(Optional.of(servicoAntigo));
-        when(servicoRepository.save(any(Servico.class))).thenReturn(servicoAntigo);
+        Servico servico = new Servico();
+        servico.setNome("Corte cabelo atual");
+        servico.setPreco(120.00D);
+        servico.setId(1L);
+        servico.setDescricao("Corte de cabelo");
 
-        Servico servicoAtualizado = servicoService.atualizarServico(servicoAntigo, 1L);
+        Servico servicoAtualizado = new Servico();
+        servicoAtualizado.setNome(servicoDTO.nome());
+        servicoAtualizado.setPreco(servicoDTO.preco());
+        servicoAtualizado.setId(1L);
+        servicoAtualizado.setDescricao(servicoDTO.descricao());
 
-        assertEquals("Corte de cabelo masculino", servicoAtualizado.getNome());
-        assertEquals(60.00D, servicoAtualizado.getPreco());
+        when(servicoRepository.findById(1L)).thenReturn(Optional.of(servico));
+        when(servicoRepository.save(any(Servico.class))).thenReturn(servicoAtualizado);
+
+        Servico resultado = servicoService.atualizarServico(servicoDTO, 1L);
+
+        assertEquals(servicoDTO.nome(), resultado.getNome());
+        assertEquals(servicoDTO.preco(), resultado.getPreco());
     }
 
     @DisplayName("Deve ser retornado a lista de serviços ordenado pelo nome")

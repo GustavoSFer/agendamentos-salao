@@ -41,10 +41,11 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> atualizarCliente(@RequestBody Cliente cliente, @PathVariable Long id) {
-        Cliente clienteAtualizado = clienteService.atualizaCliente(cliente, id);
+    public ResponseEntity<Cliente> atualizarCliente(@RequestBody ClienteDTO clienteDTO, @PathVariable Long id) {
+        Cliente clienteAtualizado = clienteService.atualizaCliente(clienteDTO, id);
 
         return ResponseEntity.ok().body(clienteAtualizado);
+
     }
 
     @DeleteMapping("/{id}")

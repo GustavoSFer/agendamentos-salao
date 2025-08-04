@@ -131,20 +131,22 @@ class ServicoControllerTest {
     @Test
     @DisplayName("Deve ser possivel atualizar um servico")
     void testAtualizarServico() throws Exception {
+        ServicoDTO servicoDTO = new ServicoDTO("Corte", "somente corte", 120.00D);
+
         Servico servico = new Servico();
         servico.setNome("Corte cabelo atual");
         servico.setPreco(120.00D);
         servico.setId(1L);
         servico.setDescricao("Corte de cabelo");
 
-        when(servicoService.atualizarServico(any(Servico.class), eq(1L))).thenReturn(servico);
+        when(servicoService.atualizarServico(any(ServicoDTO.class), eq(1L))).thenReturn(servico);
 
         mockMvc.perform(put(PATH + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(servico)))
+                .content(objectMapper.writeValueAsString(servicoDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nome").value("Corte cabelo atual"))
-                .andExpect(jsonPath("$.preco").value(120.00));
+                .andExpect(jsonPath("$.nome").value(servico.getNome()))
+                .andExpect(jsonPath("$.preco").value(servico.getPreco()));
     }
   
     @DisplayName("Deve retornar a lista de serviços.")
