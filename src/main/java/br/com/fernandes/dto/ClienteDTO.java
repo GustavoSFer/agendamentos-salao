@@ -10,6 +10,7 @@ public record ClienteDTO(
         @JsonProperty("telefone")
         @NotBlank(message = "O telefone deve ser informado.")
         String telefone,
+
         @JsonProperty("email")
         @NotBlank(message = "O email deve ser informado.")
         String email
