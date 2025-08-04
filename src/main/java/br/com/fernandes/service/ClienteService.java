@@ -1,5 +1,6 @@
 package br.com.fernandes.service;
 
+import br.com.fernandes.dto.ClienteDTO;
 import br.com.fernandes.entities.Cliente;
 import br.com.fernandes.exceptions.ClienteNotFoundException;
 import br.com.fernandes.repository.ClienteRepository;
@@ -29,17 +30,17 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Cliente atualizaCliente(Cliente clienteAtualizar, Long id) {
+    public Cliente atualizaCliente(ClienteDTO clienteAtualizar, Long id) {
         Cliente clienteAntigo = buscaClientePeloId(id);
         Cliente clienteAtualizado = atualiza(clienteAntigo, clienteAtualizar);
 
         return clienteRepository.save(clienteAtualizado);
     }
 
-    private Cliente atualiza(Cliente clienteAntigo, Cliente clienteAtualizar) {
-        clienteAntigo.setNome(clienteAtualizar.getNome());
-        clienteAntigo.setEmail(clienteAtualizar.getEmail());
-        clienteAntigo.setTelefone(clienteAtualizar.getTelefone());
+    private Cliente atualiza(Cliente clienteAntigo, ClienteDTO clienteAtualizar) {
+        clienteAntigo.setNome(clienteAtualizar.nome());
+        clienteAntigo.setEmail(clienteAtualizar.email());
+        clienteAntigo.setTelefone(clienteAtualizar.telefone());
 
         return clienteAntigo;
     }

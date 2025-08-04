@@ -1,5 +1,6 @@
 package br.com.fernandes.service;
 
+import br.com.fernandes.dto.ServicoDTO;
 import br.com.fernandes.entities.Servico;
 import br.com.fernandes.exceptions.ServicoNotFoundException;
 import br.com.fernandes.repository.ServicoRepository;
@@ -39,17 +40,17 @@ public class ServicoService {
         servicoRepository.delete(servico);
     }
 
-    public Servico atualizarServico(Servico servicoAtual, Long id) {
+    public Servico atualizarServico(ServicoDTO servicoAtual, Long id) {
         Servico servicoAntigo = buscarServicoPeloId(id);
         Servico servicoAtualizado = atualizandoServico(servicoAntigo, servicoAtual);
 
         return servicoRepository.save(servicoAtualizado);
     }
 
-    private Servico atualizandoServico(Servico servicoAntigo, Servico ServicoAtual) {
-        servicoAntigo.setNome(ServicoAtual.getNome());
-        servicoAntigo.setDescricao(ServicoAtual.getDescricao());
-        servicoAntigo.setPreco(ServicoAtual.getPreco());
+    private Servico atualizandoServico(Servico servicoAntigo, ServicoDTO ServicoAtual) {
+        servicoAntigo.setNome(ServicoAtual.nome());
+        servicoAntigo.setDescricao(ServicoAtual.descricao());
+        servicoAntigo.setPreco(ServicoAtual.preco());
 
         return servicoAntigo;
     }
