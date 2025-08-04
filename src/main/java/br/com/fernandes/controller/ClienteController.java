@@ -45,6 +45,7 @@ public class ClienteController {
         Cliente clienteAtualizado = clienteService.atualizaCliente(clienteDTO, id);
 
         return ResponseEntity.ok().body(clienteAtualizado);
+
     }
 
     @DeleteMapping("/{id}")

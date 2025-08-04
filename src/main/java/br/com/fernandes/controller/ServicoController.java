@@ -55,5 +55,6 @@ public class ServicoController {
         Servico servicoAtualizado = servicoService.atualizarServico(servicoAtual, id);
 
         return ResponseEntity.ok().body(servicoAtualizado);
+
     }
 }
