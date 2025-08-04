@@ -45,24 +45,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responseListaClientes'
-    put:
-      tags:
-        - cliente
-      summary: Atualiza cliente
-      description: Atualiza dado do cliente
-      operationId: atualizaCliente
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/criarClientes'
-      responses:
-        200:
-          description: retorna o cliente atualizado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/responseCliente'
    
   /clientes/{id}:
     get:
@@ -84,6 +66,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/responseCliente'
+    put:
+      tags:
+        - cliente
+      summary: Atualiza cliente
+      description: Atualiza dado do cliente
+      operationId: atualizaCliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/criarClientes'
+      responses:
+        200:
+          description: retorna o cliente atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCliente'
     delete:
       tags:
         - cliente
@@ -99,7 +99,7 @@ paths:
       responses:
         204:
           description: Cliente deletado com sucesso(sem conteúdo)
-  /servico:
+  /servicos:
     post:
       tags:
         - servico
@@ -117,7 +117,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/servicoResponse'   
+                $ref: '#/components/schemas/servicoResponse'
+    get:
+      tags:
+        - servico
+      summary: Retorna a lista de servico
+      description: Retorna a lista de servico
+      operationId: listaServico
+      responses:
+        200:
+          description: Retorna a lista de servico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/listaServicosResponse'
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -220,3 +234,21 @@ components:
         preco:
           type: integer
           description: Valor do servico
+    listaServicosResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Identificador unico do servico
+          nome:
+            type: string
+            description: Nome do serviço
+          descricao:
+            type: string
+            description: Descrição do servico
+          preco:
+            type: integer
+            description: Valor do servico
+        
