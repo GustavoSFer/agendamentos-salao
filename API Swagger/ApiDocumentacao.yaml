@@ -77,6 +77,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/criarClientes'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: retorna o cliente atualizado
@@ -131,6 +137,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/listaServicosResponse'
+  /servicos/{id}:
+    get:
+      tags:
+        - servico
+      summary: Retorna o servico especifico pelo id informado
+      description: Retorna o servico especifico pelo id informado
+      operationId: servicoId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Retorna o servico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/servicoResponse'
+    put:
+      tags:
+        - servico
+      summary: Atualiza servico
+      description: Atualiza servico
+      operationId: atualizaServico
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/servico'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/servicoResponse'
 
 components:
   securitySchemes:
