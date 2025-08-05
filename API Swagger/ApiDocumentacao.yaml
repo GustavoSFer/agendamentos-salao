@@ -181,6 +181,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/servicoResponse'
+    delete:
+      tags:
+        - servico
+      summary: Deletar um servico
+      description: Deletar um servico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Servico deletado com sucesso
 
 components:
   securitySchemes:
