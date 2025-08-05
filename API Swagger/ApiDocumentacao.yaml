@@ -1,0 +1,318 @@
+openapi: 3.0.0
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: |-
+      Este projeto é uma aplicação web desenvolvida em Java com Spring Boot,
+      com o objetivo de gerenciar agendamentos de serviços em um salão de beleza
+      ou barbearia.
+  contact:
+    email: 'gustavoFernandes-nao-valido@gmail.com'
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8080/v1'
+paths:
+  /clientes:
+    post:
+      tags:
+        - cliente
+      summary: Criação de um cliente
+      description: Criar um cliente
+      operationId: postCliente
+      requestBody:
+        description: Criacao de um novo cliente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/criarClientes'
+        required: true
+      responses:
+        '201':
+          description: cliente criado com sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCliente'
+    get:
+      tags:
+        - cliente
+      summary: retorna a lista de clientes
+      description: retorna a lista de clientes
+      operationId: listaClientes
+      responses:
+        200:
+          description: Retorna a lista de clientes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseListaClientes'
+   
+  /clientes/{id}:
+    get:
+      tags:
+        - cliente
+      summary: Retorna um cliente especifico pelo seu id informado
+      description: Retorna um cliente especifico pelo seu id informado
+      operationId: retornaClientePeloId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Retorna o cliente especifico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCliente'
+    put:
+      tags:
+        - cliente
+      summary: Atualiza cliente
+      description: Atualiza dado do cliente
+      operationId: atualizaCliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/criarClientes'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: retorna o cliente atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseCliente'
+    delete:
+      tags:
+        - cliente
+      summary: Deleta um cliente
+      description: Remove um cliente do banco de dados
+      operationId: deletaCliente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Cliente deletado com sucesso(sem conteúdo)
+  /servicos:
+    post:
+      tags:
+        - servico
+      summary: Criando um servico
+      description: Criar um serviços
+      operationId: criarServico
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/servico'
+      responses:
+        '201':
+          description: Retorna o servico que foi criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/servicoResponse'
+    get:
+      tags:
+        - servico
+      summary: Retorna a lista de servico
+      description: Retorna a lista de servico
+      operationId: listaServico
+      responses:
+        200:
+          description: Retorna a lista de servico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/listaServicosResponse'
+  /servicos/{id}:
+    get:
+      tags:
+        - servico
+      summary: Retorna o servico especifico pelo id informado
+      description: Retorna o servico especifico pelo id informado
+      operationId: servicoId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Retorna o servico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/servicoResponse'
+    put:
+      tags:
+        - servico
+      summary: Atualiza servico
+      description: Atualiza servico
+      operationId: atualizaServico
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/servico'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/servicoResponse'
+    delete:
+      tags:
+        - servico
+      summary: Deletar um servico
+      description: Deletar um servico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Servico deletado com sucesso
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: apikey
+
+    ClientIdHeader:
+      type: apiKey
+      in: header
+      name: client_id
+
+    ClientSecretHeader:
+      type: apiKey
+      in: header
+      name: client_secret
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    criarClientes:
+      type: object
+      properties:
+        nome:
+          type: string
+          description: "Nome do cliente"
+        telefone:
+          type: string
+          description: "telefone do cliente"
+        email:
+          type: string
+          description: "E-mail do cliente"
+    responseCliente:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Id único do cliente"
+        nome:
+          type: string
+          description: "Nome do cliente"
+        telefone:
+          type: string
+          description: "telefone do cliente"
+        email:
+          type: string
+          description: "E-mail do cliente"
+        status:
+          type: string
+          description: status do cliente Ativo | Bloqueado | Cancelado
+
+    responseListaClientes:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: "Id único do cliente"
+          nome:
+            type: string
+            description: "Nome do cliente"
+          telefone:
+            type: string
+            description: "telefone do cliente"
+          email:
+            type: string
+            description: "E-mail do cliente"
+          status:
+            type: string
+            description: status do cliente Ativo | Bloqueado | Cancelado
+
+    servico:
+      type: object
+      properties:
+        nome:
+          type: string
+          description: Nome do serviço
+        descricao:
+          type: string
+          description: Descrição do servico
+        preco:
+          type: integer
+          description: Valor do servico
+    servicoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador unico do servico
+        nome:
+          type: string
+          description: Nome do serviço
+        descricao:
+          type: string
+          description: Descrição do servico
+        preco:
+          type: integer
+          description: Valor do servico
+    listaServicosResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Identificador unico do servico
+          nome:
+            type: string
+            description: Nome do serviço
+          descricao:
+            type: string
+            description: Descrição do servico
+          preco:
+            type: integer
+            description: Valor do servico
+        

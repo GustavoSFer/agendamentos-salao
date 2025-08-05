@@ -23,9 +23,8 @@ public class ServicoService {
 
    public List<Servico> listarServicos() {
         List<Servico> servicos = servicoRepository.findAll();
-       List<Servico> servicosOrdenados = servicos.stream().sorted(Comparator.comparing(Servico::getNome)).toList();
+        List<Servico> servicosOrdenados = servicos.stream().sorted(Comparator.comparing(Servico::getNome)).toList();
         return servicosOrdenados;
-
     }
   
     public Servico buscarServicoPeloId(Long id) {
