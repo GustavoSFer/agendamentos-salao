@@ -10,10 +10,9 @@ import br.com.fernandes.service.ServicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/agendamentos")
@@ -37,5 +36,12 @@ public class AgendamentoController {
         Agendamento agendamentoCriado = agendamentoService.criarAgendamento(agendamento);
 
         return ResponseEntity.ok().body(agendamentoCriado);
+    }
+
+    @GetMapping("/{clienteId}")
+    public ResponseEntity<List<Agendamento>> listarAgendamentos(@PathVariable Long clienteId) {
+        List<Agendamento> agendamentos = agendamentoService.listaAgendamentos(clienteId);
+
+        return ResponseEntity.ok().body(agendamentos);
     }
 }

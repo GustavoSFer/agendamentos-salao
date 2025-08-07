@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AgendamentoService {
@@ -19,5 +20,9 @@ public class AgendamentoService {
             throw new AgendamentoInvalidoException("Dados informado para o agendamento está invalido, por favor revise!");
         }
         return agendamentoRepository.save(agendamento);
+    }
+
+    public List<Agendamento> listaAgendamentos(Long clienteId) {
+        return agendamentoRepository.findByClienteId(clienteId);
     }
 }
