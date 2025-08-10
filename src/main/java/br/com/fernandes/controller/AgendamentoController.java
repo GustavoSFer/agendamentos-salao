@@ -1,6 +1,7 @@
 package br.com.fernandes.controller;
 
 import br.com.fernandes.dto.AgendamentoDTO;
+import br.com.fernandes.dto.AgendamentosPorClienteDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
 import br.com.fernandes.entities.Servico;
@@ -11,8 +12,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/agendamentos")
@@ -39,8 +38,8 @@ public class AgendamentoController {
     }
 
     @GetMapping("/{clienteId}")
-    public ResponseEntity<List<Agendamento>> listarAgendamentos(@PathVariable Long clienteId) {
-        List<Agendamento> agendamentos = agendamentoService.listaAgendamentos(clienteId);
+    public ResponseEntity<AgendamentosPorClienteDTO> listarAgendamentos(@PathVariable Long clienteId) {
+        AgendamentosPorClienteDTO agendamentos = agendamentoService.listaAgendamentos(clienteId);
 
         return ResponseEntity.ok().body(agendamentos);
     }
