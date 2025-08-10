@@ -4,6 +4,7 @@ import br.com.fernandes.dto.AgendamentosPorClienteDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
 import br.com.fernandes.exceptions.AgendamentoInvalidoException;
+import br.com.fernandes.exceptions.AgendamentoPorClienteException;
 import br.com.fernandes.repository.AgendamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class AgendamentoService {
         List<Agendamento> agendamentos = agendamentoRepository.findByClienteId(clienteId);
 
         if (agendamentos.isEmpty()) {
-            // não existe agendamento, lançar uma exception
+            throw new AgendamentoPorClienteException("Cliente não possui agendamentos");
         }
         Cliente cliente = agendamentos.get(0).getCliente();
         var clienteDTO = new AgendamentosPorClienteDTO.ClienteDTO(
