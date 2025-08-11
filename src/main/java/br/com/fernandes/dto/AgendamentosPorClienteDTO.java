@@ -46,18 +46,28 @@ public class AgendamentosPorClienteDTO {
     }
 
     public static class AgendamentoSimplesDTO {
+        private Long agendamentoId;
         private String nome;
         private String descricao;
         private double preco;
         private LocalDateTime dataHora;
         private String observacao;
 
-        public AgendamentoSimplesDTO(String nome, String descricao, double preco, LocalDateTime dataHora, String observacao) {
+        public AgendamentoSimplesDTO(Long agendamentoId, String nome, String descricao, double preco, LocalDateTime dataHora, String observacao) {
+            this.agendamentoId = agendamentoId;
             this.nome = nome;
             this.descricao = descricao;
             this.preco = preco;
             this.dataHora = dataHora;
             this.observacao = observacao;
+        }
+
+        public Long getAgendamentoId() {
+            return agendamentoId;
+        }
+
+        public void setAgendamentoId(Long agendamentoId) {
+            this.agendamentoId = agendamentoId;
         }
 
         public String getNome() {

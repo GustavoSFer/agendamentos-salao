@@ -43,4 +43,16 @@ public class AgendamentoController {
 
         return ResponseEntity.ok().body(agendamentos);
     }
+
+    @PutMapping("/{clienteId}/agendamento/{agendamentoId}")
+    public ResponseEntity<Agendamento> atualizaAgendamento(
+            @PathVariable Long clienteId,
+            @PathVariable Long agendamentoId,
+            @RequestBody AgendamentoDTO agendamentoDTO
+    ) {
+        Agendamento agendamento = agendamentoService.atualizaAgendamento(clienteId, agendamentoId, agendamentoDTO);
+
+        return ResponseEntity.ok().body(agendamento);
+    }
+
 }
