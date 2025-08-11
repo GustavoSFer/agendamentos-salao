@@ -40,11 +40,9 @@ public class AgendamentoService {
 
         var agendamentosDTO = agendamentos.stream().map(
                 agendamento -> new AgendamentosPorClienteDTO.AgendamentoSimplesDTO(
-                        new AgendamentosPorClienteDTO.ServicoDTO(
-                                agendamento.getServico().getNome(),
-                                agendamento.getServico().getDescricao(),
-                                agendamento.getServico().getPreco()
-                        ),
+                        agendamento.getServico().getNome(),
+                        agendamento.getServico().getDescricao(),
+                        agendamento.getServico().getPreco(),
                         agendamento.getDataHora(),
                         agendamento.getObservacao()
                 )).toList();

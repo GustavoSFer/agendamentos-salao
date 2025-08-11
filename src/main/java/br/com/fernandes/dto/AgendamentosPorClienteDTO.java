@@ -45,51 +45,59 @@ public class AgendamentosPorClienteDTO {
         }
     }
 
-    public static class ServicoDTO {
+    public static class AgendamentoSimplesDTO {
         private String nome;
         private String descricao;
         private double preco;
+        private LocalDateTime dataHora;
+        private String observacao;
 
-        public ServicoDTO(String nome, String descricao, double preco) {
+        public AgendamentoSimplesDTO(String nome, String descricao, double preco, LocalDateTime dataHora, String observacao) {
             this.nome = nome;
             this.descricao = descricao;
             this.preco = preco;
+            this.dataHora = dataHora;
+            this.observacao = observacao;
         }
 
         public String getNome() {
             return nome;
         }
 
+        public void setNome(String nome) {
+            this.nome = nome;
+        }
+
         public String getDescricao() {
             return descricao;
+        }
+
+        public void setDescricao(String descricao) {
+            this.descricao = descricao;
         }
 
         public double getPreco() {
             return preco;
         }
-    }
 
-    public static class AgendamentoSimplesDTO {
-        private ServicoDTO servico;
-        private LocalDateTime dataHora;
-        private String observacao;
-
-        public AgendamentoSimplesDTO(ServicoDTO servico, LocalDateTime dataHora, String observacao) {
-            this.servico = servico;
-            this.dataHora = dataHora;
-            this.observacao = observacao;
-        }
-
-        public ServicoDTO getServico() {
-            return servico;
+        public void setPreco(double preco) {
+            this.preco = preco;
         }
 
         public LocalDateTime getDataHora() {
             return dataHora;
         }
 
+        public void setDataHora(LocalDateTime dataHora) {
+            this.dataHora = dataHora;
+        }
+
         public String getObservacao() {
             return observacao;
+        }
+
+        public void setObservacao(String observacao) {
+            this.observacao = observacao;
         }
     }
 }
