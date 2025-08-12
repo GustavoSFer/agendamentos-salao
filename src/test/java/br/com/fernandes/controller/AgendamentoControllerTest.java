@@ -1,9 +1,11 @@
 package br.com.fernandes.controller;
 
 import br.com.fernandes.dto.AgendamentoDTO;
+import br.com.fernandes.dto.AgendamentosPorClienteDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
 import br.com.fernandes.entities.Servico;
+import br.com.fernandes.mocks.AgendamentosPorClienteMock;
 import br.com.fernandes.service.AgendamentoService;
 import br.com.fernandes.service.ClienteService;
 import br.com.fernandes.service.ServicoService;
@@ -16,6 +18,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
 
 import java.time.LocalDateTime;
 
@@ -41,6 +52,8 @@ class AgendamentoControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    private String PATH = "/agendamentos";
 
     private Cliente cliente = new Cliente();
     private Servico servico = new Servico();
@@ -74,11 +87,27 @@ class AgendamentoControllerTest {
         when(servicoService.buscarServicoPeloId(agendamentoDTO.servicoId())).thenReturn(servico);
         when(agendamentoService.criarAgendamento(agendamento)).thenReturn(agendamentoCriado);
 
-        mockMvc.perform(post("/agendamentos")
+        mockMvc.perform(post(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(agendamentoDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L));
+    }
 
+    @Test
+    @DisplayName("Deve retornar a lista de agendamentos de um cliente")
+    void testListarAgendamentoCliente() throws Exception {
+        Long clienteId = 1L;
+        AgendamentosPorClienteDTO mock = AgendamentosPorClienteMock.criarMock();
+
+        when(agendamentoService.listaAgendamentos(clienteId)).thenReturn(mock);
+
+        mockMvc.perform(get(PATH + "/" + clienteId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.cliente.nome").value(mock.getCliente().getNome()))
+                .andExpect(jsonPath("$.cliente.email").value(mock.getCliente().getEmail()))
+                .andExpect(jsonPath("$.cliente.telefone").value(mock.getCliente().getTelefone()))
+                .andExpect(jsonPath("$.agendamentos.size()").value(mock.getAgendamentos().size()));
     }
 }
