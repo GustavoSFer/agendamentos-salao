@@ -87,4 +87,10 @@ public class AgendamentoService {
         return agendamento.orElseThrow(() -> new AgendamentoPorClienteException("Agendamento não encontrado!"));
     }
 
+    public void removerAgendamento(Long id) {
+        Agendamento agendamento = agendamentoFindById(id);
+
+        agendamentoRepository.delete(agendamento);
+    }
+
 }

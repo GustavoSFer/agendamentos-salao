@@ -55,4 +55,11 @@ public class AgendamentoController {
         return ResponseEntity.ok().body(agendamento);
     }
 
+    @DeleteMapping("/{agendamentoId}")
+    public ResponseEntity deletaAgendamento(@PathVariable Long agendamentoId) {
+        agendamentoService.removerAgendamento(agendamentoId);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }
