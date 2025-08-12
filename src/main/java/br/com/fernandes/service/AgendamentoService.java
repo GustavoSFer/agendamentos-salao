@@ -5,6 +5,7 @@ import br.com.fernandes.dto.AgendamentoDTO;
 import br.com.fernandes.dto.AgendamentosPorClienteDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
+import br.com.fernandes.entities.Servico;
 import br.com.fernandes.exceptions.AgendamentoInvalidoException;
 import br.com.fernandes.exceptions.AgendamentoPorClienteException;
 import br.com.fernandes.repository.AgendamentoRepository;
@@ -22,6 +23,12 @@ public class AgendamentoService {
 
     @Autowired
     private AgendamentoRepository agendamentoRepository;
+
+    @Autowired
+    private ClienteService clienteService;
+
+    @Autowired
+    private ServicoService servicoService;
 
     public Agendamento criarAgendamento(Agendamento agendamento) {
         if (!agendamento.getDataHora().isAfter(LocalDateTime.now())) {
@@ -57,7 +64,21 @@ public class AgendamentoService {
     }
 
     public Agendamento atualizaAgendamento(Long clienteId, Long agendamentoId, AgendamentoDTO agendamentoDTO) {
+        Agendamento agendamentoBanco = agendamentoFindById(agendamentoId);
+        Agendamento agendamentoAtualizado = atualizar(agendamentoDTO, agendamentoBanco);
 
+        return agendamentoRepository.save(agendamentoAtualizado);
+    }
+
+    private Agendamento atualizar(AgendamentoDTO agendamentoDTO, Agendamento agendamentoBanco) {
+        agendamentoBanco.setDataHora(agendamentoDTO.dataHora());
+        agendamentoBanco.setObservacao(agendamentoDTO.observacao());
+        Cliente cliente = clienteService.buscaClientePeloId(agendamentoDTO.clienteId());
+        agendamentoBanco.setCliente(cliente);
+        Servico servico = servicoService.buscarServicoPeloId(agendamentoDTO.servicoId());
+        agendamentoBanco.setServico(servico);
+
+        return agendamentoBanco;
     }
 
     private Agendamento agendamentoFindById(Long id) {
