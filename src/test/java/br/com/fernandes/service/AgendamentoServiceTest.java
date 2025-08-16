@@ -6,6 +6,7 @@ import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
 import br.com.fernandes.entities.Servico;
 import br.com.fernandes.exceptions.AgendamentoInvalidoException;
+import br.com.fernandes.exceptions.AgendamentoPorClienteException;
 import br.com.fernandes.mocks.AgendamentosMock;
 import br.com.fernandes.mocks.AgendamentosPorClienteMock;
 import br.com.fernandes.repository.AgendamentoRepository;
@@ -17,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -80,5 +82,20 @@ class AgendamentoServiceTest {
         assertNotNull(result.getAgendamentos());
         assertNotNull(result.getCliente());
         assertEquals(result.getCliente().getNome(), agendamentosPorClienteDTO.getCliente().getNome());
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma exception Cliente não possui agendamentos")
+    void testDeveRetornarExceptionNaoExisteAgendamento() {
+        List<Agendamento> agendamentoVazio = new ArrayList<>();
+
+        when(agendamentoRepository.findByClienteId(4L)).thenReturn(agendamentoVazio);
+
+        Exception error = assertThrows(AgendamentoPorClienteException.class, () ->
+                agendamentoService.listaAgendamentos(4L)
+                );
+
+        assertEquals("Cliente não possui agendamentos", error.getMessage());
+        verify(agendamentoRepository, times(1)).findByClienteId(4L);
     }
 }
