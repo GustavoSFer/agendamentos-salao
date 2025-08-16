@@ -10,6 +10,7 @@ import br.com.fernandes.exceptions.AgendamentoPorClienteException;
 import br.com.fernandes.mocks.AgendamentosMock;
 import br.com.fernandes.mocks.AgendamentosPorClienteMock;
 import br.com.fernandes.repository.AgendamentoRepository;
+import br.com.fernandes.repository.ClienteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -31,6 +33,12 @@ class AgendamentoServiceTest {
 
     @Mock
     AgendamentoRepository agendamentoRepository;
+
+    @Mock
+    private ClienteService clienteService;
+
+    @Mock
+    private ServicoService servicoService;
 
     @BeforeEach
     public void setUp() {
@@ -98,4 +106,28 @@ class AgendamentoServiceTest {
         assertEquals("Cliente não possui agendamentos", error.getMessage());
         verify(agendamentoRepository, times(1)).findByClienteId(4L);
     }
+
+    @Test
+    @DisplayName("Deve ser possivel atualizar um agendamento")
+    void testAtualizarAgendamento() {
+        Agendamento agendamentoBanco = AgendamentosMock.criarAgendamentoMock();
+        Agendamento agendamentoAtualizado = AgendamentosMock.criarAgendamentoAtualizadoMock();
+        AgendamentoDTO agendamentoDTO = new AgendamentoDTO(1L, 1L, LocalDateTime.now(), "teste");
+
+        Cliente cliente = new Cliente("Gusta", "11958889541", "gusta@gmail.com");
+        Servico servico = new Servico("Corte de Cabelo", "Corte simples", 50.00);
+
+        when(agendamentoRepository.findById(1L)).thenReturn(Optional.of(agendamentoBanco));
+        when(clienteService.buscaClientePeloId(1L)).thenReturn(cliente);
+        when(servicoService.buscarServicoPeloId(1L)).thenReturn(servico);
+        when(agendamentoRepository.save(any(Agendamento.class))).thenReturn(agendamentoAtualizado);
+
+        Agendamento result = agendamentoService.atualizaAgendamento(1L, 1L, agendamentoDTO);
+
+        assertNotNull(result);
+        assertEquals(agendamentoAtualizado.getDataHora(), result.getDataHora());
+    }
+
+
+
 }

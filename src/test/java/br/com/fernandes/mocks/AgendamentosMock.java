@@ -39,4 +39,50 @@ public class AgendamentosMock {
 
         return List.of(agendamento1, agendamento2, agendamento3);
     }
+
+    public static Agendamento criarAgendamentoAtualizadoMock() {
+        Cliente cliente = new Cliente();
+        cliente.setId(1L);
+        cliente.setNome("Gustavo Fernandes");
+        cliente.setTelefone("11958691425");
+        cliente.setEmail("gustavo@teste.com.br");
+
+        Servico servico = new Servico();
+        servico.setId(1L);
+        servico.setNome("Corte de Cabelo");
+        servico.setPreco(50.0);
+
+        Agendamento agendamento = new Agendamento(
+                cliente,
+                servico,
+                LocalDateTime.of(2025, 10, 22, 14, 0),
+                "Primeira vez do cliente"
+        );
+        agendamento.setId(1L);
+
+        return agendamento;
+    }
+
+    public static Agendamento criarAgendamentoMock() {
+        Cliente cliente = new Cliente();
+        cliente.setId(1L);
+        cliente.setNome("Gustavo Fernandes");
+        cliente.setTelefone("11958691425");
+        cliente.setEmail("gustavo@teste.com.br");
+
+        Servico servico = new Servico();
+        servico.setId(1L);
+        servico.setNome("Corte de Cabelo");
+        servico.setPreco(50.0);
+
+        Agendamento agendamento = new Agendamento(
+                cliente,
+                servico,
+                LocalDateTime.of(2025, 8, 20, 14, 0),
+                "Primeira vez do cliente"
+        );
+        agendamento.setId(1L);
+
+        return agendamento;
+    }
 }
