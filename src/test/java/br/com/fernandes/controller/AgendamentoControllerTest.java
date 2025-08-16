@@ -22,8 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -102,4 +101,31 @@ class AgendamentoControllerTest {
                 .andExpect(jsonPath("$.cliente.telefone").value(mock.getCliente().getTelefone()))
                 .andExpect(jsonPath("$.agendamentos.size()").value(mock.getAgendamentos().size()));
     }
+
+    @Test
+    @DisplayName("Deve ser possivel atualizar um agendamento de um cliente")
+    void testAtualizarAgendamentoCliente() throws Exception {
+        Long clienteId = 1L;
+        Long agendamentoId = 1L;
+        Long servicoId = 3L;
+
+        AgendamentoDTO agendamentoDTO = new AgendamentoDTO(clienteId, servicoId, LocalDateTime.now(), "Atual");
+        Agendamento agendamento = new Agendamento(
+                new Cliente(1l, "Gusta", "958962366", "gus@gmail.com"),
+                new Servico("corte", "coste tipo 1", 120.0D),
+                LocalDateTime.now(),
+                "Agendamento atual"
+        );
+
+        when(agendamentoService.atualizaAgendamento(clienteId, agendamentoId, agendamentoDTO)).thenReturn(agendamento);
+
+        mockMvc.perform(put(PATH + "/" + clienteId + "/agendamento/" + agendamentoId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(agendamentoDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.cliente.id").value(1))
+                .andExpect(jsonPath("$.servico").isNotEmpty());
+
+    }
+
 }
