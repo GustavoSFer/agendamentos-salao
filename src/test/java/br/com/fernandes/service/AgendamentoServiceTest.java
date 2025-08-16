@@ -128,6 +128,19 @@ class AgendamentoServiceTest {
         assertEquals(agendamentoAtualizado.getDataHora(), result.getDataHora());
     }
 
+    @Test
+    @DisplayName("Deve retornar Agendamento não encontrado! quando não existir")
+    void testRetornarAgendamentoPeloId() {
+        Long clienteId = 1L;
+        Long agendamentoId = 1L;
+        AgendamentoDTO agendamentoDTO = new AgendamentoDTO(1L, 1L, LocalDateTime.now(), "teste");
+
+
+        Exception error = assertThrows(AgendamentoPorClienteException.class, () ->
+                agendamentoService.atualizaAgendamento(clienteId, agendamentoId, agendamentoDTO)
+                );
+        assertEquals("Agendamento não encontrado!", error.getMessage());
+   }
 
 
 }
