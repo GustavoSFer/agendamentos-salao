@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -125,7 +125,20 @@ class AgendamentoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.cliente.id").value(1))
                 .andExpect(jsonPath("$.servico").isNotEmpty());
+    }
 
+    @Test
+    @DisplayName("Deve ser possivel deletar um agendamento")
+    void testDeletarAgendamento() throws Exception {
+        Long agendamentoId = 1L;
+
+        doNothing().when(agendamentoService).removerAgendamento(agendamentoId);
+
+        mockMvc.perform(delete(PATH + "/" + agendamentoId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        verify(agendamentoService,times(1)).removerAgendamento(agendamentoId);
     }
 
 }
