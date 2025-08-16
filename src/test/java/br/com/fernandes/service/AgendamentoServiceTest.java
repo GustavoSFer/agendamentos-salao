@@ -142,5 +142,17 @@ class AgendamentoServiceTest {
         assertEquals("Agendamento não encontrado!", error.getMessage());
    }
 
+   @Test
+   @DisplayName("Deve ser possivel remover um agendamento")
+   void testRemoverAgendamento() {
+        Long agendamentoId = 1L;
+       Agendamento agendamento = AgendamentosMock.criarAgendamentoMock();
+
+       when(agendamentoRepository.findById(agendamentoId)).thenReturn(Optional.of(agendamento));
+
+       agendamentoService.removerAgendamento(agendamentoId);
+       verify(agendamentoRepository, times(1)).delete(agendamento);
+   }
+
 
 }
