@@ -269,6 +269,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/ClienteComAgendamentos'
 
+  /agendamento/{agendamentoId}:
+    delete:
+      tags:
+        - agendamento
+      summary: Deletar um agendamento
+      description: Deleta um agendamento de um cliente
+      parameters:
+        - name: agendamentoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Agendamento deletado com sucesso
 
 components:
   securitySchemes:
