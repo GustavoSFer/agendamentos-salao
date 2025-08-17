@@ -241,7 +241,6 @@ paths:
           required: true
           schema:
             type: string
-         
       responses:
         200:
           description: Agendamento atualizado com sucesso
@@ -249,6 +248,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AgendamentoCriado'
+  
+  /agendamentos/{clienteId}:
+    get:
+      tags:
+        - agendamento
+      summary: Busca agendamento de um cliente
+      description: Busca o agendamento de um cliente
+      parameters:
+        - name: clienteId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Retorna agendamento de um cliente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClienteComAgendamentos'
+
 
 components:
   securitySchemes:
@@ -292,6 +312,7 @@ components:
         id:
           type: integer
           description: "Id único do cliente"
+          example: 2
         nome:
           type: string
           description: "Nome do cliente"
@@ -411,3 +432,34 @@ components:
           type: string
           example: "Cliente prefere cabelo mais curto nas laterais"
         
+    ClienteComAgendamentos:
+      type: object
+      properties:
+        cliente:
+          $ref: '#/components/schemas/responseCliente'
+        agendamentos:
+          type: array
+          items:
+            type: object
+            properties:
+              agendamentoId:
+                type: integer
+                example: 3
+              nome:
+                type: string
+                example: "Corte de cabelo F"
+              descricao:
+                type: string
+                example: "Corte de cabelo Feminino"
+              preco:
+                type: number
+                format: double
+                example: 80
+              dataHora:
+                type: string
+                format: date-time
+                example: "2025-08-22T14:30:00"
+              observacao:
+                type: string
+                example: "Cliente legal"
+      
