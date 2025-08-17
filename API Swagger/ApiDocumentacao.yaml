@@ -196,6 +196,25 @@ paths:
         204:
           description: Servico deletado com sucesso
 
+  /agendamentos:
+    post:
+      tags:
+        - agendamento
+      summary: agendamento servico
+      description: Realizar agendamento de um servico para um cliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/criarAgendamento'
+      responses:
+        '201':
+          description: Agendamento criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgendamentoCriado'
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -231,6 +250,7 @@ components:
         email:
           type: string
           description: "E-mail do cliente"
+
     responseCliente:
       type: object
       properties:
@@ -283,6 +303,7 @@ components:
         preco:
           type: integer
           description: Valor do servico
+
     servicoResponse:
       type: object
       properties:
@@ -298,6 +319,7 @@ components:
         preco:
           type: integer
           description: Valor do servico
+          
     listaServicosResponse:
       type: array
       items:
@@ -315,4 +337,38 @@ components:
           preco:
             type: integer
             description: Valor do servico
+
+    criarAgendamento:
+      type: object
+      properties:
+        clienteId:
+          type: integer
+          description: Numero do id do cliente
+        servicoId:
+          type: integer
+          description: Número id do serviços
+        dataHora:
+          type: string
+          description: Data e hora do agendamento 
+        observacao:
+          type: string
+          description: Descrição para o agendamento
+
+    AgendamentoCriado:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        cliente:
+          $ref: '#/components/schemas/responseCliente'
+        servico:
+          $ref: '#/components/schemas/servicoResponse'
+        dataHora:
+          type: string
+          format: date-time
+          example: "2025-08-09T14:30:00"
+        observacao:
+          type: string
+          example: "Cliente prefere cabelo mais curto nas laterais"
         
