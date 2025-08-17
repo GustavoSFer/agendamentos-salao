@@ -19,12 +19,12 @@ paths:
       description: Criar um cliente
       operationId: postCliente
       requestBody:
+        required: true
         description: Criacao de um novo cliente
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/criarClientes'
-        required: true
       responses:
         '201':
           description: cliente criado com sucesso!
@@ -73,6 +73,7 @@ paths:
       description: Atualiza dado do cliente
       operationId: atualizaCliente
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -113,6 +114,7 @@ paths:
       description: Criar um serviços
       operationId: criarServico
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -164,6 +166,7 @@ paths:
       description: Atualiza servico
       operationId: atualizaServico
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -203,6 +206,7 @@ paths:
       summary: agendamento servico
       description: Realizar agendamento de um servico para um cliente
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -210,6 +214,37 @@ paths:
       responses:
         '201':
           description: Agendamento criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgendamentoCriado'
+  /agendamentos/{clienteId}/agendamento/{agendamentoId}:
+    put:
+      tags:
+        - agendamento
+      summary: Atualizar agendamento
+      description: Atualizar agendamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/criarAgendamento'
+      parameters:
+        - name: clienteId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: agendamentoId
+          in: path
+          required: true
+          schema:
+            type: string
+         
+      responses:
+        200:
+          description: Agendamento atualizado com sucesso
           content:
             application/json:
               schema:
@@ -319,7 +354,7 @@ components:
         preco:
           type: integer
           description: Valor do servico
-          
+
     listaServicosResponse:
       type: array
       items:
@@ -353,6 +388,10 @@ components:
         observacao:
           type: string
           description: Descrição para o agendamento
+      required:
+        - clienteId
+        - servicoId
+        - dataHora
 
     AgendamentoCriado:
       type: object
