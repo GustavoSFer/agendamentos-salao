@@ -197,7 +197,7 @@ paths:
             type: string
       responses:
         204:
-          description: Servico deletado com sucesso
+          description: Servico deletado com sucesso(sem conteúdo)
 
   /agendamentos:
     post:
@@ -283,7 +283,7 @@ paths:
             type: string
       responses:
         204:
-          description: Agendamento deletado com sucesso
+          description: Agendamento deletado com sucesso(sem conteúdo)
 
 components:
   securitySchemes:
@@ -314,12 +314,19 @@ components:
         nome:
           type: string
           description: "Nome do cliente"
+          example: "Gustavo Fernandes"
         telefone:
           type: string
           description: "telefone do cliente"
+          example: "11958691425"
         email:
           type: string
           description: "E-mail do cliente"
+          example: "gustavo@teste.com.br"
+      required:
+        - nome
+        - telefone
+        - email
 
     responseCliente:
       type: object
@@ -331,15 +338,19 @@ components:
         nome:
           type: string
           description: "Nome do cliente"
+          example: "Gustavo Fernandes"
         telefone:
           type: string
           description: "telefone do cliente"
+          example: "11958691425"
         email:
           type: string
           description: "E-mail do cliente"
+          example: "gustavo@teste.com.br"
         status:
           type: string
           description: status do cliente Ativo | Bloqueado | Cancelado
+          example: "Ativo"
 
     responseListaClientes:
       type: array
@@ -349,18 +360,23 @@ components:
           id:
             type: integer
             description: "Id único do cliente"
+            example: 1
           nome:
             type: string
             description: "Nome do cliente"
+            example: "Maria Souza"
           telefone:
             type: string
             description: "telefone do cliente"
+            example: "11999998888"
           email:
             type: string
             description: "E-mail do cliente"
+            example: "maria@teste.com"
           status:
             type: string
             description: status do cliente Ativo | Bloqueado | Cancelado
+            example: "Ativo"
 
     servico:
       type: object
@@ -368,12 +384,18 @@ components:
         nome:
           type: string
           description: Nome do serviço
+          example: "Corte de cabelo Masculino"
         descricao:
           type: string
           description: Descrição do servico
+          example: "Corte de cabelo masculino simples"
         preco:
           type: integer
           description: Valor do servico
+          example: 50
+      required:
+        - nome
+        - preco
 
     servicoResponse:
       type: object
@@ -381,15 +403,19 @@ components:
         id:
           type: integer
           description: Identificador unico do servico
+          example: 10
         nome:
           type: string
           description: Nome do serviço
+          example: "Corte de cabelo Feminino"
         descricao:
           type: string
           description: Descrição do servico
+          example: "Corte de cabelo feminino com escova"
         preco:
           type: integer
           description: Valor do servico
+          example: 80
 
     listaServicosResponse:
       type: array
@@ -399,15 +425,19 @@ components:
           id:
             type: integer
             description: Identificador unico do servico
+            example: 11
           nome:
             type: string
             description: Nome do serviço
+            example: "Manicure"
           descricao:
             type: string
             description: Descrição do servico
+            example: "Manicure simples"
           preco:
             type: integer
             description: Valor do servico
+            example: 30
 
     criarAgendamento:
       type: object
@@ -415,15 +445,20 @@ components:
         clienteId:
           type: integer
           description: Numero do id do cliente
+          example: 2
         servicoId:
           type: integer
           description: Número id do serviços
+          example: 10
         dataHora:
           type: string
           description: Data e hora do agendamento 
+          format: date-time
+          example: "2025-08-09T14:30:00"
         observacao:
           type: string
           description: Descrição para o agendamento
+          example: "Cliente prefere cabelo mais curto nas laterais"
       required:
         - clienteId
         - servicoId
@@ -477,4 +512,3 @@ components:
               observacao:
                 type: string
                 example: "Cliente legal"
-      
