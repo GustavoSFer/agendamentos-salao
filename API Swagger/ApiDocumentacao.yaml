@@ -253,8 +253,8 @@ paths:
     get:
       tags:
         - agendamento
-      summary: Busca agendamento de um cliente
-      description: Busca o agendamento de um cliente
+      summary: Busca todos os agendamentos de um cliente
+      description: Retonar o cliente e a lista de agendamentos realizado pelo cliente
       parameters:
         - name: clienteId
           in: path
