@@ -1,6 +1,7 @@
 package br.com.fernandes.controller;
 
 import br.com.fernandes.dto.AgendamentoDTO;
+import br.com.fernandes.dto.AgendamentosPorClienteDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
 import br.com.fernandes.entities.Servico;
@@ -10,10 +11,7 @@ import br.com.fernandes.service.ServicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/agendamentos")
@@ -38,4 +36,30 @@ public class AgendamentoController {
 
         return ResponseEntity.ok().body(agendamentoCriado);
     }
+
+    @GetMapping("/{clienteId}")
+    public ResponseEntity<AgendamentosPorClienteDTO> listarAgendamentos(@PathVariable Long clienteId) {
+        AgendamentosPorClienteDTO agendamentos = agendamentoService.listaAgendamentos(clienteId);
+
+        return ResponseEntity.ok().body(agendamentos);
+    }
+
+    @PutMapping("/{clienteId}/agendamento/{agendamentoId}")
+    public ResponseEntity<Agendamento> atualizaAgendamento(
+            @PathVariable Long clienteId,
+            @PathVariable Long agendamentoId,
+            @RequestBody AgendamentoDTO agendamentoDTO
+    ) {
+        Agendamento agendamento = agendamentoService.atualizaAgendamento(clienteId, agendamentoId, agendamentoDTO);
+
+        return ResponseEntity.ok().body(agendamento);
+    }
+
+    @DeleteMapping("/{agendamentoId}")
+    public ResponseEntity deletaAgendamento(@PathVariable Long agendamentoId) {
+        agendamentoService.removerAgendamento(agendamentoId);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

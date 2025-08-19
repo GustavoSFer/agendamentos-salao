@@ -65,4 +65,13 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(status).body(erro);
     }
+
+    @ExceptionHandler(AgendamentoPorClienteException.class)
+    public ResponseEntity<StartErrorException> agendamentoPorCliente(AgendamentoPorClienteException e) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        Instant instant = Instant.now();
+
+        StartErrorException error = new StartErrorException(e.getMessage(),instant, status);
+        return ResponseEntity.status(status).body(error);
+    }
 }

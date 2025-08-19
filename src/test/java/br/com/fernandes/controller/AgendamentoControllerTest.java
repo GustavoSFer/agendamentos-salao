@@ -1,9 +1,11 @@
 package br.com.fernandes.controller;
 
 import br.com.fernandes.dto.AgendamentoDTO;
+import br.com.fernandes.dto.AgendamentosPorClienteDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
 import br.com.fernandes.entities.Servico;
+import br.com.fernandes.mocks.AgendamentosPorClienteMock;
 import br.com.fernandes.service.AgendamentoService;
 import br.com.fernandes.service.ClienteService;
 import br.com.fernandes.service.ServicoService;
@@ -19,8 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,6 +43,8 @@ class AgendamentoControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    private String PATH = "/agendamentos";
 
     private Cliente cliente = new Cliente();
     private Servico servico = new Servico();
@@ -74,11 +78,67 @@ class AgendamentoControllerTest {
         when(servicoService.buscarServicoPeloId(agendamentoDTO.servicoId())).thenReturn(servico);
         when(agendamentoService.criarAgendamento(agendamento)).thenReturn(agendamentoCriado);
 
-        mockMvc.perform(post("/agendamentos")
+        mockMvc.perform(post(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(agendamentoDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L));
-
     }
+
+    @Test
+    @DisplayName("Deve retornar a lista de agendamentos de um cliente")
+    void testListarAgendamentoCliente() throws Exception {
+        Long clienteId = 1L;
+        AgendamentosPorClienteDTO mock = AgendamentosPorClienteMock.criarMock();
+
+        when(agendamentoService.listaAgendamentos(clienteId)).thenReturn(mock);
+
+        mockMvc.perform(get(PATH + "/" + clienteId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.cliente.nome").value(mock.getCliente().getNome()))
+                .andExpect(jsonPath("$.cliente.email").value(mock.getCliente().getEmail()))
+                .andExpect(jsonPath("$.cliente.telefone").value(mock.getCliente().getTelefone()))
+                .andExpect(jsonPath("$.agendamentos.size()").value(mock.getAgendamentos().size()));
+    }
+
+    @Test
+    @DisplayName("Deve ser possivel atualizar um agendamento de um cliente")
+    void testAtualizarAgendamentoCliente() throws Exception {
+        Long clienteId = 1L;
+        Long agendamentoId = 1L;
+        Long servicoId = 3L;
+
+        AgendamentoDTO agendamentoDTO = new AgendamentoDTO(clienteId, servicoId, LocalDateTime.now(), "Atual");
+        Agendamento agendamento = new Agendamento(
+                new Cliente(1l, "Gusta", "958962366", "gus@gmail.com"),
+                new Servico("corte", "coste tipo 1", 120.0D),
+                LocalDateTime.now(),
+                "Agendamento atual"
+        );
+
+        when(agendamentoService.atualizaAgendamento(clienteId, agendamentoId, agendamentoDTO)).thenReturn(agendamento);
+
+        mockMvc.perform(put(PATH + "/" + clienteId + "/agendamento/" + agendamentoId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(agendamentoDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.cliente.id").value(1))
+                .andExpect(jsonPath("$.servico").isNotEmpty());
+    }
+
+    @Test
+    @DisplayName("Deve ser possivel deletar um agendamento")
+    void testDeletarAgendamento() throws Exception {
+        Long agendamentoId = 1L;
+
+        doNothing().when(agendamentoService).removerAgendamento(agendamentoId);
+
+        mockMvc.perform(delete(PATH + "/" + agendamentoId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        verify(agendamentoService,times(1)).removerAgendamento(agendamentoId);
+    }
+
 }
