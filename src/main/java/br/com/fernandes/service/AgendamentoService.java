@@ -1,6 +1,7 @@
 package br.com.fernandes.service;
 
 import br.com.fernandes.dto.AgendamentoDTO;
+import br.com.fernandes.dto.AgendamentoDiaDTO;
 import br.com.fernandes.dto.AgendamentosPorClienteDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
@@ -9,9 +10,12 @@ import br.com.fernandes.exceptions.AgendamentoInvalidoException;
 import br.com.fernandes.exceptions.AgendamentoPorClienteException;
 import br.com.fernandes.repository.AgendamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,4 +94,13 @@ public class AgendamentoService {
         agendamentoRepository.delete(agendamento);
     }
 
+    public List<AgendamentoDiaDTO> agendamentoDia(LocalDate data) {
+        LocalDateTime inicio = data.atStartOfDay();
+        LocalDateTime fim = data.atTime(LocalTime.MAX);
+
+        List<Agendamento> listaAgendamento = agendamentoRepository.findByDataHoraBetween(inicio, fim);
+
+        System.out.println(">>>>>>>>>>>   " + listaAgendamento);
+        return null;
+    }
 }
