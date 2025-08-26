@@ -1,6 +1,7 @@
 package br.com.fernandes.service;
 
 import br.com.fernandes.dto.AgendamentoDTO;
+import br.com.fernandes.dto.AgendamentoDiaDTO;
 import br.com.fernandes.dto.AgendamentosPorClienteDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
@@ -8,10 +9,13 @@ import br.com.fernandes.entities.Servico;
 import br.com.fernandes.exceptions.AgendamentoInvalidoException;
 import br.com.fernandes.exceptions.AgendamentoPorClienteException;
 import br.com.fernandes.repository.AgendamentoRepository;
+import br.com.fernandes.util.AgendamentoDiaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,4 +94,16 @@ public class AgendamentoService {
         agendamentoRepository.delete(agendamento);
     }
 
+    public AgendamentoDiaDTO agendamentoDia(LocalDate data) {
+        LocalDateTime inicio = data.atStartOfDay();
+        LocalDateTime fim = data.atTime(LocalTime.MAX);
+        AgendamentoDiaDTO agendamentoDiaDTO = new AgendamentoDiaDTO();
+
+        List<Agendamento> listaAgendamento = agendamentoRepository.findByDataHoraBetween(inicio, fim);
+
+        List<AgendamentoDiaDTO.AgendamentoData> listaAgendamentoDia = listaAgendamento.stream().map(AgendamentoDiaMapper::AgendamentoToAgendamentoDia).toList();
+        agendamentoDiaDTO.setData(listaAgendamentoDia);
+
+        return agendamentoDiaDTO;
+    }
 }

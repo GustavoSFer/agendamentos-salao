@@ -1,6 +1,7 @@
 package br.com.fernandes.controller;
 
 import br.com.fernandes.dto.AgendamentoDTO;
+import br.com.fernandes.dto.AgendamentoDiaDTO;
 import br.com.fernandes.dto.AgendamentosPorClienteDTO;
 import br.com.fernandes.entities.Agendamento;
 import br.com.fernandes.entities.Cliente;
@@ -12,6 +13,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/agendamentos")
@@ -60,6 +63,13 @@ public class AgendamentoController {
         agendamentoService.removerAgendamento(agendamentoId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/dia")
+    public ResponseEntity<AgendamentoDiaDTO> agendamentoDia(@RequestParam LocalDate data) {
+        AgendamentoDiaDTO listaAgendamentosDia = agendamentoService.agendamentoDia(data);
+
+        return ResponseEntity.ok().body(listaAgendamentosDia);
     }
 
 }
