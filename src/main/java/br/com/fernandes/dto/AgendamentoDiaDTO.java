@@ -12,15 +12,17 @@ public class AgendamentoDiaDTO {
     private AgendamentoData data;
 
     @Data
-    public class AgendamentoData {
+    public static class AgendamentoData {
         @JsonProperty("cliente")
         private String clienteNome;
         @JsonProperty("telefone")
-        String telefone;
+        private String telefone;
         @JsonProperty("email")
-        String email;
+        private String email;
         @JsonProperty("Servico")
         private String servico;
+        @JsonProperty("Preco")
+        private double preco;
         @JsonProperty("Data")
         private Date data;
     }
