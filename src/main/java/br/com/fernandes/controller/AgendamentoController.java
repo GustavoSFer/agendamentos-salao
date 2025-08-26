@@ -67,8 +67,8 @@ public class AgendamentoController {
     }
 
     @GetMapping("/dia")
-    public ResponseEntity<List<AgendamentoDiaDTO>> agendamentoDia(@RequestParam LocalDate data) {
-        List<AgendamentoDiaDTO> listaAgendamentosDia = agendamentoService.agendamentoDia(data);
+    public ResponseEntity<AgendamentoDiaDTO> agendamentoDia(@RequestParam LocalDate data) {
+        AgendamentoDiaDTO listaAgendamentosDia = agendamentoService.agendamentoDia(data);
 
         return ResponseEntity.ok().body(listaAgendamentosDia);
     }

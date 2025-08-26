@@ -5,11 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class AgendamentoDiaDTO {
     @JsonProperty("data")
-    private AgendamentoData data;
+    private List<AgendamentoData> data;
 
     @Data
     public static class AgendamentoData {

@@ -8,8 +8,7 @@ import java.util.Date;
 
 public class AgendamentoDiaMapper {
 
-    public static AgendamentoDiaDTO AgendamentoToAgendamentoDia(Agendamento agendamento) {
-        AgendamentoDiaDTO agendamentoDiaDTO = new AgendamentoDiaDTO();
+    public static AgendamentoDiaDTO.AgendamentoData AgendamentoToAgendamentoDia(Agendamento agendamento) {
 
         AgendamentoDiaDTO.AgendamentoData agendamentoData = new AgendamentoDiaDTO.AgendamentoData();
         agendamentoData.setClienteNome(agendamento.getCliente().getNome());
@@ -22,8 +21,6 @@ public class AgendamentoDiaMapper {
                 .toInstant());
         agendamentoData.setData(date);
 
-        agendamentoDiaDTO.setData(agendamentoData);
-
-        return agendamentoDiaDTO;
+        return agendamentoData;
     }
 }
