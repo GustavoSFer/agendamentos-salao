@@ -3,8 +3,7 @@ package br.com.fernandes.util;
 import br.com.fernandes.dto.AgendamentoDiaDTO;
 import br.com.fernandes.entities.Agendamento;
 
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class AgendamentoDiaMapper {
 
@@ -16,9 +15,7 @@ public class AgendamentoDiaMapper {
         agendamentoData.setTelefone(agendamento.getCliente().getTelefone());
         agendamentoData.setServico(agendamento.getServico().getNome());
         agendamentoData.setPreco(agendamento.getServico().getPreco());
-        Date date = Date.from(agendamento.getDataHora()
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
+        LocalDate date = agendamento.getDataHora().toLocalDate();
         agendamentoData.setData(date);
 
         return agendamentoData;

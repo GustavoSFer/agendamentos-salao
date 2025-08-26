@@ -11,7 +11,6 @@ import br.com.fernandes.exceptions.AgendamentoPorClienteException;
 import br.com.fernandes.repository.AgendamentoRepository;
 import br.com.fernandes.util.AgendamentoDiaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

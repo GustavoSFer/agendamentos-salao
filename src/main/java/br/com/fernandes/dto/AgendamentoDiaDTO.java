@@ -1,10 +1,9 @@
 package br.com.fernandes.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -25,6 +24,6 @@ public class AgendamentoDiaDTO {
         @JsonProperty("Preco")
         private double preco;
         @JsonProperty("Data")
-        private Date data;
+        private LocalDate data;
     }
 }
